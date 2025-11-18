@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scroll global */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animación fade-in para el hero */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+/* Pop del avatar al entrar */
+@keyframes avatarPop {
+  0% {
+    transform: translateY(8px) scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-avatarPop {
+  animation: avatarPop 0.4s ease-out forwards;
+}
+
+/* Fade-in de las cards de futuros */
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-cardFadeIn {
+  animation: cardFadeIn 0.7s ease-out forwards;
+}
