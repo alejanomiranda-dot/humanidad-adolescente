@@ -277,7 +277,7 @@ const FutureCard = ({ future }) => {
   const [activeTab, setActiveTab] = useState('achievements');
 
   return (
-    <div className="transition-all duration-700 opacity-0 translate-y-3 animate-[cardFadeIn_0.7s_ease-out_forwards] bg-gray-900/70 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/60">
+    <div className="transition-all duration-700 opacity-0 translate-y-3 animate-[cardFadeIn_0.7s_ease-out_forwards] bg-gradient-to-b from-gray-800/80 to-gray-900/80 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/50 shadow-xl hover:shadow-2xl hover:border-gray-600/50 hover:-translate-y-1">
       <div className="flex flex-col items-center mb-8">
         <AdultAvatar future={future} />
         <h3 className="text-2xl font-bold text-white mt-6 mb-2">{future.name}</h3>
@@ -335,59 +335,66 @@ const Avatar = ({ stage, isActive }) => {
 
   return (
     <div className="relative flex justify-center items-center">
+      {/* Shadow */}
       <div className="absolute bottom-0 w-20 sm:w-24 md:w-28 h-6 bg-black/20 blur-[40px] rounded-full" />
-
+      
+      {/* Avatar */}
       <div className={`relative z-10 transition-all duration-700 ${isActive ? 'scale-100 opacity-100 animate-[avatarPop_0.4s_ease-out]' : 'scale-90 opacity-0'}`}>
         <svg width={config.size} height={config.size + 40} viewBox={`0 0 ${config.size} ${config.size + 40}`}>
-          <circle
-            cx={config.size / 2}
-            cy={config.head / 2}
-            r={config.head / 2}
-            fill={config.color}
-            className="transition-all duration-700"
-          />
-          <circle cx={config.size / 2 - 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
-          <circle cx={config.size / 2 + 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
-          <rect
-            x={(config.size - config.body * 0.6) / 2}
-            y={config.head}
-            width={config.body * 0.6}
-            height={config.body}
-            fill={config.color}
-            rx={5}
-            className="transition-all duration-700"
-          />
-          <rect
-            x={(config.size - config.body * 0.8) / 2 - 5}
-            y={config.head + 5}
-            width={5}
-            height={config.body * 0.5}
-            fill={config.color}
-            rx={3}
-          />
-          <rect
-            x={(config.size + config.body * 0.8) / 2}
-            y={config.head + 5}
-            width={5}
-            height={config.body * 0.5}
-            fill={config.color}
-            rx={3}
-          />
-        </svg>
-        <div className="text-center mt-4 text-sm font-medium text-gray-400">
-          {stage.age_human}
-        </div>
+        {/* Head */}
+        <circle
+          cx={config.size / 2}
+          cy={config.head / 2}
+          r={config.head / 2}
+          fill={config.color}
+          className="transition-all duration-700"
+        />
+        {/* Eyes */}
+        <circle cx={config.size / 2 - 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
+        <circle cx={config.size / 2 + 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
+        {/* Body */}
+        <rect
+          x={(config.size - config.body * 0.6) / 2}
+          y={config.head}
+          width={config.body * 0.6}
+          height={config.body}
+          fill={config.color}
+          rx={5}
+          className="transition-all duration-700"
+        />
+        {/* Arms */}
+        <rect
+          x={(config.size - config.body * 0.8) / 2 - 5}
+          y={config.head + 5}
+          width={5}
+          height={config.body * 0.5}
+          fill={config.color}
+          rx={3}
+        />
+        <rect
+          x={(config.size + config.body * 0.8) / 2}
+          y={config.head + 5}
+          width={5}
+          height={config.body * 0.5}
+          fill={config.color}
+          rx={3}
+        />
+      </svg>
+      <div className="text-center mt-4 text-sm font-medium text-gray-400">
+        {stage.age_human}
       </div>
+    </div>
     </div>
   );
 };
 
-const TimelineStage = ({ stage, isActive }) => {
+const TimelineStage = ({ stage, isActive, onNavigate }) => {
   const [activeTab, setActiveTab] = useState('achievements');
 
   return (
     <div className={`transition-all duration-700 ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none absolute'}`}>
       <div className="flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto">
+        {/* Avatar */}
         <div className="flex-shrink-0 flex flex-col items-center my-8 lg:my-12">
           <Avatar stage={stage} isActive={isActive} />
           <div className="mt-8 text-center">
@@ -396,6 +403,7 @@ const TimelineStage = ({ stage, isActive }) => {
           </div>
         </div>
 
+        {/* Content */}
         <div className="flex-1 space-y-6">
           <div>
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2">
@@ -409,6 +417,7 @@ const TimelineStage = ({ stage, isActive }) => {
             {stage.text}
           </p>
 
+          {/* Tabs */}
           <div className="space-y-4">
             <div className="flex gap-2 border-b border-gray-700">
               {['achievements', 'wounds', 'risks'].map(tab => (
@@ -466,6 +475,7 @@ export default function HumanityAdolescence() {
 
   const handleTouchEnd = (e) => {
     if (!touchStart) return;
+    
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
 
@@ -484,13 +494,7 @@ export default function HumanityAdolescence() {
   };
 
   return (
-    <div className="min-h-screen text-white relative overflow-hidden">
-      {/* Fondo global: imagen poética + gradiente oscuro */}
-      <div className="fixed inset-0 -z-30">
-        <div className="w-full h-full bg-[url('/poetic-bg.jpg')] bg-cover bg-center opacity-60" />
-      </div>
-      <div className="fixed inset-0 -z-20 bg-gradient-to-b from-gray-900/95 via-gray-900/90 to-gray-950/95" />
-
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 text-white">
       <style>{`
         html {
           scroll-behavior: smooth;
@@ -526,45 +530,57 @@ export default function HumanityAdolescence() {
             transform: translateY(0);
           }
         }
+        .text-glow {
+          text-shadow: 0 0 20px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.3);
+        }
+        .text-glow-white {
+          text-shadow: 0 0 30px rgba(255, 255, 255, 0.4), 0 0 60px rgba(255, 255, 255, 0.2);
+        }
       `}</style>
-
-      {/* Hero */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 relative">
-        <div className="mb-12 animate-fade-in-up">
+      {/* Hero Section */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 relative overflow-hidden">
+        {/* Background effects */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-orange-900/20 to-gray-900/50"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px]"></div>
+        
+        <div className="relative z-10 mb-12 animate-fade-in-up">
           <Avatar stage={stages[5]} isActive={true} />
         </div>
-
-        <h1
-          className="text-4xl lg:text-6xl font-bold mb-6 max-w-4xl leading-tight animate-fade-in-up"
-          style={{ animationDelay: '0.2s' }}
-        >
-          Si la humanidad fuera una persona, hoy tendría 15 años.
+        
+        <h1 className="relative z-10 text-5xl lg:text-7xl font-black mb-4 max-w-5xl leading-tight animate-fade-in-up text-glow-white" style={{animationDelay: '0.2s'}}>
+          LA HUMANIDAD
         </h1>
-
-        <p
-          className="text-xl lg:text-2xl text-gray-300 mb-12 max-w-2xl animate-fade-in-up"
-          style={{ animationDelay: '0.4s' }}
-        >
-          Tenemos tecnología de adulto, pero emociones de adolescente.
+        <h2 className="relative z-10 text-5xl lg:text-7xl font-black mb-8 max-w-5xl leading-tight animate-fade-in-up text-glow" style={{animationDelay: '0.3s', color: '#FDB813'}}>
+          ADOLESCENTE
+        </h2>
+        
+        <p className="relative z-10 text-xl lg:text-2xl text-gray-200 mb-4 max-w-3xl animate-fade-in-up font-medium" style={{animationDelay: '0.4s'}}>
+          ¿En qué etapa emocional está nuestra especie?
         </p>
-
+        
+        <p className="relative z-10 text-lg lg:text-xl text-gray-300 mb-12 max-w-2xl animate-fade-in-up" style={{animationDelay: '0.5s'}}>
+          Una web interactiva para entender nuestra época
+        </p>
+        
         <button
           onClick={scrollToTimeline}
-          className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors animate-fade-in-up"
-          style={{ animationDelay: '0.6s' }}
+          className="relative z-10 px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-gray-900 rounded-full font-bold text-lg hover:from-orange-400 hover:to-amber-400 transition-all shadow-lg shadow-orange-500/50 animate-fade-in-up"
+          style={{animationDelay: '0.6s'}}
         >
-          Ver cómo crecimos
+          Explorar la línea de tiempo
         </button>
       </section>
 
-      {/* Timeline */}
+      {/* Timeline Section */}
       <section id="timeline" className="min-h-screen py-20 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <h2 className="text-4xl lg:text-5xl font-black text-center mb-20 text-glow-white">
             Nuestro crecimiento como especie
           </h2>
 
-          <div
+          {/* Stage Display */}
+          <div 
             className="relative min-h-[600px] mb-16"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
@@ -578,11 +594,12 @@ export default function HumanityAdolescence() {
             ))}
           </div>
 
+          {/* Navigation */}
           <div className="flex items-center justify-center gap-6">
             <button
               onClick={() => setCurrentStage(Math.max(0, currentStage - 1))}
               disabled={currentStage === 0}
-              className="p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-3 rounded-full bg-gray-700 hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -604,7 +621,7 @@ export default function HumanityAdolescence() {
             <button
               onClick={() => setCurrentStage(Math.min(stages.length - 1, currentStage + 1))}
               disabled={currentStage === stages.length - 1}
-              className="p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="p-3 rounded-full bg-gray-700 hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
@@ -612,20 +629,16 @@ export default function HumanityAdolescence() {
         </div>
       </section>
 
-      {/* Futures with its own background */}
-      <section className="py-20 px-6 relative">
-        {/* Fondo específico para futuros */}
-        <div className="absolute inset-0 -z-10">
-          <div className="w-full h-full bg-[url('/futures-bg.jpg')] bg-cover bg-center opacity-40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/95 via-gray-900/95 to-gray-950/95" />
-        </div>
-
-        <div className="max-w-7xl mx-auto relative">
-          <h2 className="text-4xl font-bold text-center mb-6">
+      {/* Futures Section */}
+      <section className="pt-20 pb-6 px-6 bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <h2 className="text-4xl lg:text-5xl font-black text-center mb-6 text-glow-white">
             ¿En qué tipo de adultos podemos convertirnos?
           </h2>
-
-          <div className="max-w-3xl mx-auto mb-12 p-6 bg-gray-900/80 rounded-xl border border-gray-700/70 backdrop-blur">
+          
+          {/* Temporal window explanation */}
+          <div className="max-w-3xl mx-auto mb-8 p-6 bg-gray-800/50 rounded-xl border border-gray-700/50">
             <h3 className="text-2xl font-bold text-white mb-4">
               ¿Cuándo dejaríamos de ser adolescentes como especie?
             </h3>
@@ -641,14 +654,15 @@ export default function HumanityAdolescence() {
               </p>
             </div>
           </div>
-
-          <div className="w-16 h-0.5 bg-white/20 mx-auto mt-4 mb-10 rounded-full" />
-
-          <p className="text-xl text-gray-200 text-center mb-16 max-w-3xl mx-auto">
+          
+          {/* Línea divisoria elegante */}
+          <div className="w-16 h-0.5 bg-white/20 mx-auto mt-4 mb-6 rounded-full"></div>
+          
+          <p className="text-xl text-gray-300 text-center mb-8 max-w-3xl mx-auto">
             Tres futuros posibles. Ninguno está garantizado. Todos dependen de lo que elijamos hacer hoy.
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {futures.map(future => (
               <FutureCard key={future.id} future={future} />
             ))}
@@ -656,8 +670,8 @@ export default function HumanityAdolescence() {
         </div>
       </section>
 
-      {/* Qué significa madurar */}
-      <section className="py-20 px-6 relative">
+      {/* Maturity Section */}
+      <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-6">
             ¿Qué significa madurar como especie?
@@ -694,8 +708,8 @@ export default function HumanityAdolescence() {
         </div>
       </section>
 
-      {/* Qué podemos hacer hoy */}
-      <section className="py-20 px-6 bg-gray-900/80 relative">
+      {/* Action Section */}
+      <section className="py-20 px-6 bg-gray-800/30">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-6">
             Qué podemos hacer hoy
@@ -767,14 +781,14 @@ export default function HumanityAdolescence() {
         </div>
       </section>
 
-      {/* Créditos */}
-      <footer className="py-16 px-6 border-t border-gray-700 bg-gray-900/90">
+      {/* Footer */}
+      <footer className="py-16 px-6 border-t border-gray-700">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-6">
             Créditos y creación
           </h2>
           <div className="mx-auto mt-4 mb-8 w-16 h-[2px] bg-white/20 rounded-full" />
-
+          
           <div className="text-gray-300 space-y-4 max-w-[720px] mx-auto">
             <p className="leading-relaxed">
               Este ensayo interactivo fue creado como una metáfora para entender dónde estamos como especie y hacia dónde podríamos ir.
@@ -793,11 +807,12 @@ export default function HumanityAdolescence() {
         </div>
       </footer>
 
-      <footer className="text-center text-white/40 text-sm py-10 border-t border-white/10 bg-gray-950/95">
+      {/* Footer minimalista */}
+      <footer className="text-center text-white/40 text-sm py-10 mt-20 border-t border-white/10">
         Creado por Alejano910 · 2025
       </footer>
 
-      {/* Botón volver arriba */}
+      {/* Botón flotante "Volver arriba" */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition z-50"
