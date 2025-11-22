@@ -633,11 +633,17 @@ export default function HumanityAdolescence() {
     const text = "Descubrí que la humanidad tiene 15 años. ¿En qué etapa emocional estamos como especie?";
     
     const urls = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
       whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+      instagram: `https://www.instagram.com/` // Instagram no permite share directo, abre la app
     };
+    
+    if (platform === 'instagram') {
+      alert('Para compartir en Instagram, tomá una captura de pantalla y compartila en tus historias 📸');
+      return;
+    }
     
     window.open(urls[platform], '_blank', 'width=600,height=400');
   };
@@ -1029,16 +1035,19 @@ export default function HumanityAdolescence() {
           <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-2xl font-bold mb-6 text-center">Compartir</h3>
             <div className="grid grid-cols-2 gap-4">
-              <button onClick={() => shareProject('twitter')} className="p-4 bg-blue-400 hover:bg-blue-500 rounded-xl font-semibold transition-colors">
-                Twitter
+              <button onClick={() => shareProject('x')} className="p-4 bg-black hover:bg-gray-900 rounded-xl font-semibold transition-colors">
+                𝕏 (Twitter)
               </button>
               <button onClick={() => shareProject('facebook')} className="p-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-colors">
                 Facebook
               </button>
+              <button onClick={() => shareProject('instagram')} className="p-4 bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 rounded-xl font-semibold transition-colors">
+                Instagram
+              </button>
               <button onClick={() => shareProject('whatsapp')} className="p-4 bg-green-500 hover:bg-green-600 rounded-xl font-semibold transition-colors">
                 WhatsApp
               </button>
-              <button onClick={() => shareProject('linkedin')} className="p-4 bg-blue-700 hover:bg-blue-800 rounded-xl font-semibold transition-colors">
+              <button onClick={() => shareProject('linkedin')} className="p-4 bg-blue-700 hover:bg-blue-800 rounded-xl font-semibold transition-colors col-span-2">
                 LinkedIn
               </button>
             </div>
