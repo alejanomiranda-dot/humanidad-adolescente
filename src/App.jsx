@@ -1226,7 +1226,7 @@ export default function HumanityAdolescence() {
               Este ensayo interactivo fue creado como una metáfora para entender dónde estamos como especie y hacia dónde podríamos ir.
             </p>
             <p className="leading-relaxed">
-              <strong className="text-white">Idea y texto original:</strong> Alejandro Miranda (Alejano910 - Curioso Profesional y Emprendedor)
+              <strong className="text-white">Idea y texto original:</strong> Alejandro Miranda Baremberg (Alejano910 - Curioso Profesional y Emprendedor)
             </p>
             <p className="leading-relaxed">
               <strong className="text-white">Desarrollo interactivo:</strong> Colaboración entre humanos e inteligencias artificiales.
