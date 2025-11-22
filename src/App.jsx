@@ -494,7 +494,31 @@ export default function HumanityAdolescence() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 text-white relative overflow-hidden">
+      {/* Starfield background */}
+      <div className="fixed inset-0 opacity-40">
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[10%] left-[20%] animate-pulse"></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[15%] left-[80%] animate-pulse" style={{animationDelay: '0.3s'}}></div>
+        <div className="absolute w-0.5 h-0.5 bg-white rounded-full top-[25%] left-[40%] animate-pulse" style={{animationDelay: '0.6s'}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[35%] left-[70%] animate-pulse" style={{animationDelay: '0.9s'}}></div>
+        <div className="absolute w-0.5 h-0.5 bg-white rounded-full top-[45%] left-[15%] animate-pulse" style={{animationDelay: '1.2s'}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[55%] left-[85%] animate-pulse" style={{animationDelay: '1.5s'}}></div>
+        <div className="absolute w-0.5 h-0.5 bg-white rounded-full top-[65%] left-[30%] animate-pulse" style={{animationDelay: '1.8s'}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[75%] left-[60%] animate-pulse" style={{animationDelay: '2.1s'}}></div>
+        <div className="absolute w-0.5 h-0.5 bg-white rounded-full top-[85%] left-[45%] animate-pulse" style={{animationDelay: '2.4s'}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[20%] left-[50%] animate-pulse" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute w-0.5 h-0.5 bg-white rounded-full top-[40%] left-[90%] animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute w-1 h-1 bg-white rounded-full top-[60%] left-[10%] animate-pulse" style={{animationDelay: '1.7s'}}></div>
+      </div>
+      
+      {/* Nebula effects */}
+      <div className="fixed inset-0 opacity-30">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[150px]"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-600/15 rounded-full blur-[180px]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[200px]"></div>
+      </div>
+      
+      <div className="relative z-10">
       <style>{`
         html {
           scroll-behavior: smooth;
@@ -539,7 +563,32 @@ export default function HumanityAdolescence() {
       `}</style>
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 relative overflow-hidden">
-        {/* Background effects */}
+        {/* Illustrated background - Cosmic sunset with silhouettes */}
+        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#1a0b2e', stopOpacity: 1}} />
+              <stop offset="50%" style={{stopColor: '#7b2cbf', stopOpacity: 0.8}} />
+              <stop offset="100%" style={{stopColor: '#ff6b35', stopOpacity: 0.9}} />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#heroSky)" />
+          {/* Mountains silhouette */}
+          <path d="M0,600 L200,400 L400,500 L600,350 L800,450 L1000,300 L1200,400 L1400,250 L1920,400 L1920,1080 L0,1080 Z" 
+                fill="#0a0118" opacity="0.9" />
+          <path d="M0,700 L300,550 L600,650 L900,500 L1200,600 L1500,450 L1920,550 L1920,1080 L0,1080 Z" 
+                fill="#1a0b2e" opacity="0.7" />
+          {/* Stars */}
+          <circle cx="100" cy="100" r="3" fill="white" opacity="1" />
+          <circle cx="300" cy="150" r="2" fill="white" opacity="0.8" />
+          <circle cx="500" cy="80" r="3" fill="white" opacity="1" />
+          <circle cx="700" cy="120" r="2" fill="white" opacity="0.9" />
+          <circle cx="900" cy="90" r="3" fill="white" opacity="1" />
+          <circle cx="1100" cy="140" r="2" fill="white" opacity="0.8" />
+          <circle cx="1300" cy="110" r="2.5" fill="white" opacity="0.9" />
+        </svg>
+        
+        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-orange-900/20 to-gray-900/50"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px]"></div>
         
@@ -572,7 +621,31 @@ export default function HumanityAdolescence() {
       </section>
 
       {/* Timeline Section */}
-      <section id="timeline" className="min-h-screen py-20 px-6 relative">
+      <section id="timeline" className="min-h-screen py-20 px-6 relative overflow-hidden">
+        {/* Illustrated background - Path through ages */}
+        <svg className="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="timelineSky" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#0f172a', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: '#1e293b', stopOpacity: 1}} />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#timelineSky)" />
+          {/* Winding path/timeline */}
+          <path d="M-100,800 Q400,700 800,600 T1600,400 T2400,300" 
+                stroke="#fbbf24" strokeWidth="6" fill="none" opacity="0.6" strokeDasharray="20,10" />
+          {/* Ancient structures silhouettes */}
+          <rect x="100" y="650" width="80" height="150" fill="#1a1a2e" opacity="0.8" />
+          <polygon points="140,650 100,620 180,620" fill="#1a1a2e" opacity="0.8" />
+          {/* City skyline */}
+          <rect x="1200" y="500" width="40" height="300" fill="#1a1a2e" opacity="0.7" />
+          <rect x="1250" y="450" width="50" height="350" fill="#1a1a2e" opacity="0.8" />
+          <rect x="1310" y="480" width="45" height="320" fill="#1a1a2e" opacity="0.7" />
+          {/* Additional details */}
+          <circle cx="400" cy="700" r="8" fill="#fbbf24" opacity="0.5" />
+          <circle cx="800" cy="600" r="8" fill="#fbbf24" opacity="0.5" />
+          <circle cx="1200" cy="500" r="8" fill="#fbbf24" opacity="0.5" />
+        </svg>
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 to-transparent"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <h2 className="text-4xl lg:text-5xl font-black text-center mb-20 text-glow-white">
@@ -630,7 +703,36 @@ export default function HumanityAdolescence() {
       </section>
 
       {/* Futures Section */}
-      <section className="pt-20 pb-6 px-6 bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 relative">
+      <section className="pt-20 pb-6 px-6 bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 relative overflow-hidden">
+        {/* Illustrated background - Multiple paths diverging */}
+        <svg className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="futuresSky" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#0a0a1a', stopOpacity: 1}} />
+              <stop offset="50%" style={{stopColor: '#1a0b2e', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: '#2d1b4e', stopOpacity: 1}} />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#futuresSky)" />
+          {/* Three diverging paths */}
+          <path d="M960,900 L960,700 L700,500" 
+                stroke="#4A9B6F" strokeWidth="5" fill="none" opacity="0.7" strokeDasharray="10,5" />
+          <path d="M960,900 L960,650 L960,400" 
+                stroke="#6B7280" strokeWidth="5" fill="none" opacity="0.7" strokeDasharray="10,5" />
+          <path d="M960,900 L960,700 L1220,500" 
+                stroke="#7C2D12" strokeWidth="5" fill="none" opacity="0.7" strokeDasharray="10,5" />
+          {/* Future city left (green) */}
+          <rect x="650" y="450" width="30" height="80" fill="#4A9B6F" opacity="0.6" />
+          <rect x="690" y="470" width="25" height="60" fill="#4A9B6F" opacity="0.6" />
+          <rect x="625" y="480" width="20" height="50" fill="#4A9B6F" opacity="0.5" />
+          {/* Neutral structures center */}
+          <rect x="950" y="350" width="20" height="50" fill="#6B7280" opacity="0.6" />
+          <rect x="975" y="370" width="18" height="30" fill="#6B7280" opacity="0.5" />
+          {/* Broken structures right (red) */}
+          <polygon points="1200,520 1180,500 1220,500" fill="#7C2D12" opacity="0.6" />
+          <rect x="1200" y="520" width="20" height="30" fill="#7C2D12" opacity="0.6" />
+          <path d="M1215,505 L1225,515" stroke="#7C2D12" strokeWidth="2" opacity="0.5" />
+        </svg>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <h2 className="text-4xl lg:text-5xl font-black text-center mb-6 text-glow-white">
@@ -709,8 +811,37 @@ export default function HumanityAdolescence() {
       </section>
 
       {/* Action Section */}
-      <section className="py-20 px-6 bg-gray-800/30">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-20 px-6 bg-gray-800/30 relative overflow-hidden">
+        {/* Illustrated background - Hands reaching/building */}
+        <svg className="absolute inset-0 w-full h-full opacity-20" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="actionSky" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{stopColor: '#0f172a', stopOpacity: 1}} />
+              <stop offset="100%" style={{stopColor: '#1e293b', stopOpacity: 1}} />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#actionSky)" />
+          {/* Network of connections */}
+          <circle cx="300" cy="300" r="50" stroke="#fbbf24" strokeWidth="3" fill="none" opacity="0.6" />
+          <circle cx="700" cy="400" r="50" stroke="#fbbf24" strokeWidth="3" fill="none" opacity="0.6" />
+          <circle cx="1100" cy="350" r="50" stroke="#fbbf24" strokeWidth="3" fill="none" opacity="0.6" />
+          <circle cx="500" cy="600" r="50" stroke="#fbbf24" strokeWidth="3" fill="none" opacity="0.6" />
+          <circle cx="900" cy="650" r="50" stroke="#fbbf24" strokeWidth="3" fill="none" opacity="0.6" />
+          {/* Connecting lines */}
+          <line x1="300" y1="300" x2="700" y2="400" stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+          <line x1="700" y1="400" x2="1100" y2="350" stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+          <line x1="300" y1="300" x2="500" y2="600" stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+          <line x1="700" y1="400" x2="900" y2="650" stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+          <line x1="500" y1="600" x2="900" y2="650" stroke="#fbbf24" strokeWidth="2" opacity="0.4" />
+          <line x1="1100" y1="350" x2="900" y2="650" stroke="#fbbf24" strokeWidth="2" opacity="0.3" />
+          {/* Center nodes */}
+          <circle cx="300" cy="300" r="10" fill="#fbbf24" opacity="0.7" />
+          <circle cx="700" cy="400" r="10" fill="#fbbf24" opacity="0.7" />
+          <circle cx="1100" cy="350" r="10" fill="#fbbf24" opacity="0.7" />
+          <circle cx="500" cy="600" r="10" fill="#fbbf24" opacity="0.7" />
+          <circle cx="900" cy="650" r="10" fill="#fbbf24" opacity="0.7" />
+        </svg>
+        <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-4xl font-bold text-center mb-6">
             Qué podemos hacer hoy
           </h2>
@@ -820,6 +951,7 @@ export default function HumanityAdolescence() {
       >
         ↑
       </button>
+      </div>
     </div>
   );
 }
