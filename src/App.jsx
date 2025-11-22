@@ -1208,7 +1208,7 @@ export default function HumanityAdolescence() {
           
           <div className="flex justify-center gap-4 mb-12 flex-wrap">
             <button onClick={() => shareProject('twitter')} className="px-6 py-3 bg-blue-400 hover:bg-blue-500 rounded-full font-semibold transition-colors">
-              🐦 Twitter
+              𝕏 X (ex Twitter)
             </button>
             <button onClick={() => shareProject('facebook')} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition-colors">
               📘 Facebook
