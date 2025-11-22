@@ -1,0 +1,16 @@
+<section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 overflow-hidden">
+  {/* Fondo poético */}
+  <div
+    className="pointer-events-none absolute inset-0 opacity-[0.08] mix-blend-screen"
+    style={{
+      backgroundImage: "url('/img/poetic-bg.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}
+  />
+
+  {/* Contenido hero */}
+  <div className="relative z-10">
+    {/* ... Avatar, título, botón ... */}
+  </div>
+</section>
