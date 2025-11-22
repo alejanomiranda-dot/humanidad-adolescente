@@ -248,6 +248,123 @@ const stages = [
   }
 ];
 
+const QuizComponent = ({ onComplete }) => {
+  const [answers, setAnswers] = useState({});
+  const [currentQ, setCurrentQ] = useState(0);
+
+  const questions = [
+    {
+      q: "¿Cómo reaccionas cuando alguien te contradice?",
+      options: [
+        { text: "Me enojo y defiendo mi posición agresivamente", value: 1 },
+        { text: "Escucho pero me cuesta cambiar de opinión", value: 2 },
+        { text: "Considero su punto de vista y puedo cambiar mi perspectiva", value: 3 }
+      ]
+    },
+    {
+      q: "¿Cómo usas la tecnología?",
+      options: [
+        { text: "La uso sin pensar en consecuencias", value: 1 },
+        { text: "Intento usarla responsablemente pero a veces fallo", value: 2 },
+        { text: "La uso conscientemente, pensando en su impacto", value: 3 }
+      ]
+    },
+    {
+      q: "¿Cómo te relacionas con personas de otras culturas o ideas?",
+      options: [
+        { text: "Desconfío o me cierran las diferencias", value: 1 },
+        { text: "Tengo curiosidad pero me cuesta salir de mi zona de confort", value: 2 },
+        { text: "Me enriquezco con la diversidad activamente", value: 3 }
+      ]
+    },
+    {
+      q: "¿Pensás en las generaciones futuras al tomar decisiones?",
+      options: [
+        { text: "No, me enfoco en el presente inmediato", value: 1 },
+        { text: "A veces, pero no es mi prioridad", value: 2 },
+        { text: "Sí, considero el impacto a largo plazo", value: 3 }
+      ]
+    },
+    {
+      q: "¿Cómo manejás tus emociones intensas?",
+      options: [
+        { text: "Exploto o las reprimo sin procesar", value: 1 },
+        { text: "Intento controlarlas pero a veces me desbordan", value: 2 },
+        { text: "Las reconozco, proceso y expreso sanamente", value: 3 }
+      ]
+    }
+  ];
+
+  const handleAnswer = (value) => {
+    const newAnswers = { ...answers, [currentQ]: value };
+    setAnswers(newAnswers);
+    
+    if (currentQ < questions.length - 1) {
+      setCurrentQ(currentQ + 1);
+    } else {
+      calculateResult(newAnswers);
+    }
+  };
+
+  const calculateResult = (ans) => {
+    const total = Object.values(ans).reduce((a, b) => a + b, 0);
+    const avg = total / questions.length;
+    
+    let result;
+    if (avg <= 1.5) {
+      result = {
+        stage: "Adolescencia temprana",
+        description: "Estás en proceso de descubrir quién sos y cómo relacionarte con el mundo.",
+        message: "La buena noticia: estás consciente y podés crecer. Cada decisión cuenta."
+      };
+    } else if (avg <= 2.5) {
+      result = {
+        stage: "Adolescencia plena",
+        description: "Tenés las herramientas pero todavía estás aprendiendo a usarlas sabiamente.",
+        message: "Estás en el momento perfecto para dar el salto hacia la madurez."
+      };
+    } else {
+      result = {
+        stage: "Adultez emergente",
+        description: "Mostrás señales de madurez emocional y consciencia sobre tu impacto.",
+        message: "Tu trabajo ahora es ayudar a otros a crecer también."
+      };
+    }
+    onComplete(result);
+  };
+
+  return (
+    <div>
+      <div className="mb-6">
+        <div className="flex justify-between text-sm text-gray-400 mb-2">
+          <span>Pregunta {currentQ + 1} de {questions.length}</span>
+          <span>{Math.round(((currentQ) / questions.length) * 100)}%</span>
+        </div>
+        <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-300"
+            style={{ width: `${((currentQ) / questions.length) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <h3 className="text-xl font-bold mb-6">{questions[currentQ].q}</h3>
+      
+      <div className="space-y-3">
+        {questions[currentQ].options.map((option, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleAnswer(option.value)}
+            className="w-full p-4 text-left bg-gray-700/50 hover:bg-gray-600/50 rounded-xl transition-colors border border-gray-600/50 hover:border-orange-500/50"
+          >
+            {option.text}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const AdultAvatar = ({ future, size = 200 }) => {
   return (
     <div className="relative flex justify-center items-center">
@@ -455,13 +572,30 @@ const TimelineStage = ({ stage, isActive, onNavigate }) => {
 export default function HumanityAdolescence() {
   const [currentStage, setCurrentStage] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
+  const [autoPlay, setAutoPlay] = useState(false);
+  const [showScrollHint, setShowScrollHint] = useState(true);
+  const [quizResult, setQuizResult] = useState(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (autoPlay && currentStage < stages.length - 1) {
+      interval = setInterval(() => {
+        setCurrentStage(prev => prev + 1);
+      }, 8000);
+    }
+    return () => clearInterval(interval);
+  }, [autoPlay, currentStage]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft' && currentStage > 0) {
         setCurrentStage(currentStage - 1);
+        setShowScrollHint(false);
       } else if (e.key === 'ArrowRight' && currentStage < stages.length - 1) {
         setCurrentStage(currentStage + 1);
+        setShowScrollHint(false);
       }
     };
 
@@ -485,12 +619,27 @@ export default function HumanityAdolescence() {
       } else if (diff < 0 && currentStage > 0) {
         setCurrentStage(currentStage - 1);
       }
+      setShowScrollHint(false);
     }
     setTouchStart(null);
   };
 
   const scrollToTimeline = () => {
     document.getElementById('timeline').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const shareProject = (platform) => {
+    const url = window.location.href;
+    const text = "Descubrí que la humanidad tiene 15 años. ¿En qué etapa emocional estamos como especie?";
+    
+    const urls = {
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
+    };
+    
+    window.open(urls[platform], '_blank', 'width=600,height=400');
   };
 
   return (
@@ -554,6 +703,33 @@ export default function HumanityAdolescence() {
             transform: translateY(0);
           }
         }
+        @keyframes slideInFromBottom {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        .parallax-slow {
+          will-change: transform;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-float,
+          .parallax-slow {
+            animation: none;
+            transform: none;
+          }
+        }
         .text-glow {
           text-shadow: 0 0 20px rgba(251, 191, 36, 0.5), 0 0 40px rgba(251, 191, 36, 0.3);
         }
@@ -563,8 +739,20 @@ export default function HumanityAdolescence() {
       `}</style>
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 relative overflow-hidden">
+        {/* Meta tags for sharing */}
+        <head>
+          <title>La Humanidad Adolescente - ¿En qué etapa emocional está nuestra especie?</title>
+          <meta name="description" content="Si la humanidad fuera una persona, hoy tendría 15 años. Explorá nuestra historia como un viaje de crecimiento emocional." />
+          <meta property="og:title" content="La Humanidad Adolescente" />
+          <meta property="og:description" content="¿En qué etapa emocional está nuestra especie? Una experiencia interactiva sobre el crecimiento de la humanidad." />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="La Humanidad Adolescente" />
+          <meta name="twitter:description" content="Si la humanidad fuera una persona, hoy tendría 15 años." />
+        </head>
+        
         {/* Illustrated background - Cosmic sunset with silhouettes */}
-        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="xMidYMid slice">
+        <svg className="absolute inset-0 w-full h-full opacity-40 parallax-slow" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="heroSky" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style={{stopColor: '#1a0b2e', stopOpacity: 1}} />
@@ -592,7 +780,7 @@ export default function HumanityAdolescence() {
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/30 via-orange-900/20 to-gray-900/50"></div>
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px]"></div>
         
-        <div className="relative z-10 mb-12 animate-fade-in-up">
+        <div className="relative z-10 mb-12 animate-fade-in-up animate-float">
           <Avatar stage={stages[5]} isActive={true} />
         </div>
         
@@ -658,6 +846,21 @@ export default function HumanityAdolescence() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
+            {/* Scroll hint */}
+            {showScrollHint && currentStage === 0 && (
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-gray-400 text-sm animate-bounce z-20 flex items-center gap-2">
+                <span>←</span> Desliza para explorar <span>→</span>
+              </div>
+            )}
+            
+            {/* Progress bar */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-700 z-20">
+              <div 
+                className="h-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-500"
+                style={{ width: `${((currentStage + 1) / stages.length) * 100}%` }}
+              />
+            </div>
+
             {stages.map((stage, idx) => (
               <TimelineStage
                 key={stage.id}
@@ -667,8 +870,8 @@ export default function HumanityAdolescence() {
             ))}
           </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-6">
+          {/* Navigation with autoplay */}
+          <div className="flex items-center justify-center gap-6 mb-6">
             <button
               onClick={() => setCurrentStage(Math.max(0, currentStage - 1))}
               disabled={currentStage === 0}
@@ -699,13 +902,23 @@ export default function HumanityAdolescence() {
               <ChevronRight className="w-6 h-6" />
             </button>
           </div>
+
+          {/* Autoplay toggle */}
+          <div className="flex justify-center">
+            <button
+              onClick={() => setAutoPlay(!autoPlay)}
+              className="px-6 py-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors text-sm flex items-center gap-2"
+            >
+              {autoPlay ? '⏸' : '▶'} {autoPlay ? 'Pausar' : 'Reproducir automático'}
+            </button>
+          </div>
         </div>
       </section>
 
       {/* Futures Section */}
       <section className="pt-20 pb-6 px-6 bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 relative overflow-hidden">
         {/* Illustrated background - Multiple paths diverging */}
-        <svg className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="xMidYMid slice">
+        <svg className="absolute inset-0 w-full h-full opacity-25 parallax-slow" preserveAspectRatio="xMidYMid slice">
           <defs>
             <linearGradient id="futuresSky" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style={{stopColor: '#0a0a1a', stopOpacity: 1}} />
@@ -771,6 +984,70 @@ export default function HumanityAdolescence() {
           </div>
         </div>
       </section>
+
+      {/* Quiz Section */}
+      <section id="quiz" className="py-20 px-6 bg-gradient-to-b from-gray-900 via-indigo-900/20 to-gray-900 relative overflow-hidden">
+        <div className="max-w-3xl mx-auto relative z-10">
+          <h2 className="text-4xl lg:text-5xl font-black text-center mb-6 text-glow-white">
+            ¿En qué etapa estás tú?
+          </h2>
+          <p className="text-xl text-gray-300 text-center mb-12">
+            Respondé este breve quiz y descubrí tu madurez individual
+          </p>
+
+          {!quizResult ? (
+            <div className="bg-gray-800/80 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/50">
+              <QuizComponent onComplete={setQuizResult} />
+            </div>
+          ) : (
+            <div className="bg-gradient-to-b from-gray-800/80 to-gray-900/80 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/50 text-center">
+              <h3 className="text-3xl font-bold mb-4 text-glow">
+                Eres: {quizResult.stage}
+              </h3>
+              <p className="text-lg text-gray-300 mb-6">{quizResult.description}</p>
+              <p className="text-gray-400 mb-8">{quizResult.message}</p>
+              <button
+                onClick={() => setQuizResult(null)}
+                className="px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-gray-900 rounded-full font-bold hover:from-orange-400 hover:to-amber-400 transition-all"
+              >
+                Volver a hacer el quiz
+              </button>
+              <button
+                onClick={() => setShowShareModal(true)}
+                className="ml-4 px-8 py-3 bg-white/10 text-white rounded-full font-bold hover:bg-white/20 transition-all"
+              >
+                Compartir resultado
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Share Modal */}
+      {showShareModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-6" onClick={() => setShowShareModal(false)}>
+          <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-2xl font-bold mb-6 text-center">Compartir</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <button onClick={() => shareProject('twitter')} className="p-4 bg-blue-400 hover:bg-blue-500 rounded-xl font-semibold transition-colors">
+                Twitter
+              </button>
+              <button onClick={() => shareProject('facebook')} className="p-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-colors">
+                Facebook
+              </button>
+              <button onClick={() => shareProject('whatsapp')} className="p-4 bg-green-500 hover:bg-green-600 rounded-xl font-semibold transition-colors">
+                WhatsApp
+              </button>
+              <button onClick={() => shareProject('linkedin')} className="p-4 bg-blue-700 hover:bg-blue-800 rounded-xl font-semibold transition-colors">
+                LinkedIn
+              </button>
+            </div>
+            <button onClick={() => setShowShareModal(false)} className="mt-6 w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-xl transition-colors">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Maturity Section */}
       <section className="py-20 px-6">
@@ -916,10 +1193,25 @@ export default function HumanityAdolescence() {
       <footer className="py-16 px-6 border-t border-gray-700">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-6">
-            Créditos y creación
+            Compartí esta reflexión
           </h2>
           <div className="mx-auto mt-4 mb-8 w-16 h-[2px] bg-white/20 rounded-full" />
           
+          <div className="flex justify-center gap-4 mb-12 flex-wrap">
+            <button onClick={() => shareProject('twitter')} className="px-6 py-3 bg-blue-400 hover:bg-blue-500 rounded-full font-semibold transition-colors">
+              🐦 Twitter
+            </button>
+            <button onClick={() => shareProject('facebook')} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition-colors">
+              📘 Facebook
+            </button>
+            <button onClick={() => shareProject('whatsapp')} className="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-full font-semibold transition-colors">
+              💬 WhatsApp
+            </button>
+            <button onClick={() => shareProject('linkedin')} className="px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-full font-semibold transition-colors">
+              💼 LinkedIn
+            </button>
+          </div>
+
           <div className="text-gray-300 space-y-4 max-w-[720px] mx-auto">
             <p className="leading-relaxed">
               Este ensayo interactivo fue creado como una metáfora para entender dónde estamos como especie y hacia dónde podríamos ir.
@@ -943,14 +1235,28 @@ export default function HumanityAdolescence() {
         Creado por Alejano910 · 2025
       </footer>
 
-      {/* Botón flotante "Volver arriba" */}
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition z-50"
-        aria-label="Volver arriba"
-      >
-        ↑
-      </button>
+      {/* Botón flotante "Volver arriba" con sound toggle */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+        {/* Sound toggle */}
+        <button
+          onClick={() => setSoundEnabled(!soundEnabled)}
+          className="w-12 h-12 rounded-full bg-gray-700/80 hover:bg-gray-600/80 backdrop-blur text-white flex items-center justify-center transition shadow-lg"
+          aria-label="Toggle sound"
+          title={soundEnabled ? "Desactivar sonido" : "Activar sonido"}
+        >
+          {soundEnabled ? '🔊' : '🔇'}
+        </button>
+        
+        {/* Back to top */}
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="w-12 h-12 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition shadow-lg"
+          aria-label="Volver arriba"
+          title="Volver arriba"
+        >
+          ↑
+        </button>
+      </div>
       </div>
     </div>
   );
