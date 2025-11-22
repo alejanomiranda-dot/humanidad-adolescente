@@ -277,7 +277,7 @@ const FutureCard = ({ future }) => {
   const [activeTab, setActiveTab] = useState('achievements');
 
   return (
-    <div className="transition-all duration-700 opacity-0 translate-y-3 animate-[cardFadeIn_0.7s_ease-out_forwards] bg-gray-800/60 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/60">
+    <div className="transition-all duration-700 opacity-0 translate-y-3 animate-[cardFadeIn_0.7s_ease-out_forwards] bg-gray-900/70 rounded-2xl p-8 backdrop-blur-sm border border-gray-700/60">
       <div className="flex flex-col items-center mb-8">
         <AdultAvatar future={future} />
         <h3 className="text-2xl font-bold text-white mt-6 mb-2">{future.name}</h3>
@@ -335,13 +335,10 @@ const Avatar = ({ stage, isActive }) => {
 
   return (
     <div className="relative flex justify-center items-center">
-      {/* Shadow */}
       <div className="absolute bottom-0 w-20 sm:w-24 md:w-28 h-6 bg-black/20 blur-[40px] rounded-full" />
-      
-      {/* Avatar */}
+
       <div className={`relative z-10 transition-all duration-700 ${isActive ? 'scale-100 opacity-100 animate-[avatarPop_0.4s_ease-out]' : 'scale-90 opacity-0'}`}>
         <svg width={config.size} height={config.size + 40} viewBox={`0 0 ${config.size} ${config.size + 40}`}>
-          {/* Head */}
           <circle
             cx={config.size / 2}
             cy={config.head / 2}
@@ -349,10 +346,8 @@ const Avatar = ({ stage, isActive }) => {
             fill={config.color}
             className="transition-all duration-700"
           />
-          {/* Eyes */}
           <circle cx={config.size / 2 - 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
           <circle cx={config.size / 2 + 8} cy={config.head / 2 - 5} r={3} fill="#2C1810" />
-          {/* Body */}
           <rect
             x={(config.size - config.body * 0.6) / 2}
             y={config.head}
@@ -362,7 +357,6 @@ const Avatar = ({ stage, isActive }) => {
             rx={5}
             className="transition-all duration-700"
           />
-          {/* Arms */}
           <rect
             x={(config.size - config.body * 0.8) / 2 - 5}
             y={config.head + 5}
@@ -394,7 +388,6 @@ const TimelineStage = ({ stage, isActive }) => {
   return (
     <div className={`transition-all duration-700 ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none absolute'}`}>
       <div className="flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto">
-        {/* Avatar */}
         <div className="flex-shrink-0 flex flex-col items-center my-8 lg:my-12">
           <Avatar stage={stage} isActive={isActive} />
           <div className="mt-8 text-center">
@@ -403,7 +396,6 @@ const TimelineStage = ({ stage, isActive }) => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex-1 space-y-6">
           <div>
             <h2 className="text-3xl lg:text-4xl font-bold text-white mb-2">
@@ -417,7 +409,6 @@ const TimelineStage = ({ stage, isActive }) => {
             {stage.text}
           </p>
 
-          {/* Tabs */}
           <div className="space-y-4">
             <div className="flex gap-2 border-b border-gray-700">
               {['achievements', 'wounds', 'risks'].map(tab => (
@@ -475,7 +466,6 @@ export default function HumanityAdolescence() {
 
   const handleTouchEnd = (e) => {
     if (!touchStart) return;
-    
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
 
@@ -494,7 +484,13 @@ export default function HumanityAdolescence() {
   };
 
   return (
-    <div className="relative min-h-screen text-white overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden">
+      {/* Fondo global: imagen poética + gradiente oscuro */}
+      <div className="fixed inset-0 -z-30">
+        <div className="w-full h-full bg-[url('/poetic-bg.jpg')] bg-cover bg-center opacity-60" />
+      </div>
+      <div className="fixed inset-0 -z-20 bg-gradient-to-b from-gray-900/95 via-gray-900/90 to-gray-950/95" />
+
       <style>{`
         html {
           scroll-behavior: smooth;
@@ -532,305 +528,283 @@ export default function HumanityAdolescence() {
         }
       `}</style>
 
-      {/* Fondo global poético */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-25"
-        style={{
-          backgroundImage: "url('/poetic-bg.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+      {/* Hero */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20 relative">
+        <div className="mb-12 animate-fade-in-up">
+          <Avatar stage={stages[5]} isActive={true} />
+        </div>
 
-      {/* Capa de gradiente para legibilidad */}
-      <div className="relative z-10 min-h-screen bg-gradient-to-b from-gray-900/95 via-gray-900/90 to-gray-950">
+        <h1
+          className="text-4xl lg:text-6xl font-bold mb-6 max-w-4xl leading-tight animate-fade-in-up"
+          style={{ animationDelay: '0.2s' }}
+        >
+          Si la humanidad fuera una persona, hoy tendría 15 años.
+        </h1>
 
-        {/* Hero Section */}
-        <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center pt-[clamp(5rem,12vh,8rem)] pb-20">
-          <div className="mb-12 animate-fade-in-up">
-            <Avatar stage={stages[5]} isActive={true} />
-          </div>
-          
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6 max-w-4xl leading-tight animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-            Si la humanidad fuera una persona, hoy tendría 15 años.
-          </h1>
-          
-          <p className="text-xl lg:text-2xl text-gray-300 mb-12 max-w-2xl animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-            Tenemos tecnología de adulto, pero emociones de adolescente.
-          </p>
-          
-          <button
-            onClick={scrollToTimeline}
-            className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors animate-fade-in-up"
-            style={{animationDelay: '0.6s'}}
+        <p
+          className="text-xl lg:text-2xl text-gray-300 mb-12 max-w-2xl animate-fade-in-up"
+          style={{ animationDelay: '0.4s' }}
+        >
+          Tenemos tecnología de adulto, pero emociones de adolescente.
+        </p>
+
+        <button
+          onClick={scrollToTimeline}
+          className="px-8 py-4 bg-white text-gray-900 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors animate-fade-in-up"
+          style={{ animationDelay: '0.6s' }}
+        >
+          Ver cómo crecimos
+        </button>
+      </section>
+
+      {/* Timeline */}
+      <section id="timeline" className="min-h-screen py-20 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-20">
+            Nuestro crecimiento como especie
+          </h2>
+
+          <div
+            className="relative min-h-[600px] mb-16"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
-            Ver cómo crecimos
-          </button>
-        </section>
+            {stages.map((stage, idx) => (
+              <TimelineStage
+                key={stage.id}
+                stage={stage}
+                isActive={currentStage === idx}
+              />
+            ))}
+          </div>
 
-        {/* Timeline Section */}
-        <section id="timeline" className="min-h-screen py-20 px-6">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-20">
-              Nuestro crecimiento como especie
-            </h2>
-
-            {/* Stage Display */}
-            <div 
-              className="relative min-h-[600px] mb-16"
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
+          <div className="flex items-center justify-center gap-6">
+            <button
+              onClick={() => setCurrentStage(Math.max(0, currentStage - 1))}
+              disabled={currentStage === 0}
+              className="p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              {stages.map((stage, idx) => (
-                <TimelineStage
-                  key={stage.id}
-                  stage={stage}
-                  isActive={currentStage === idx}
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <div className="flex gap-2">
+              {stages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentStage(idx)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    currentStage === idx
+                      ? 'bg-white w-8'
+                      : 'bg-gray-600 hover:bg-gray-500'
+                  }`}
                 />
               ))}
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-6">
-              <button
-                onClick={() => setCurrentStage(Math.max(0, currentStage - 1))}
-                disabled={currentStage === 0}
-                className="p-3 rounded-full bg-gray-700 hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
+            <button
+              onClick={() => setCurrentStage(Math.min(stages.length - 1, currentStage + 1))}
+              disabled={currentStage === stages.length - 1}
+              className="p-3 rounded-full bg-gray-800/80 hover:bg-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      </section>
 
-              <div className="flex gap-2">
-                {stages.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentStage(idx)}
-                    className={`w-3 h-3 rounded-full transition-all ${
-                      currentStage === idx
-                        ? 'bg-white w-8'
-                        : 'bg-gray-600 hover:bg-gray-500'
-                    }`}
-                  />
+      {/* Futures with its own background */}
+      <section className="py-20 px-6 relative">
+        {/* Fondo específico para futuros */}
+        <div className="absolute inset-0 -z-10">
+          <div className="w-full h-full bg-[url('/futures-bg.jpg')] bg-cover bg-center opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/95 via-gray-900/95 to-gray-950/95" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative">
+          <h2 className="text-4xl font-bold text-center mb-6">
+            ¿En qué tipo de adultos podemos convertirnos?
+          </h2>
+
+          <div className="max-w-3xl mx-auto mb-12 p-6 bg-gray-900/80 rounded-xl border border-gray-700/70 backdrop-blur">
+            <h3 className="text-2xl font-bold text-white mb-4">
+              ¿Cuándo dejaríamos de ser adolescentes como especie?
+            </h3>
+            <div className="text-gray-200 leading-relaxed space-y-3">
+              <p>
+                Si la humanidad fuera una persona, hoy tendría unos 15 años. Convertirnos en adultos no depende del calendario, sino de las decisiones colectivas que tomemos.
+              </p>
+              <p>
+                Pero si usamos el paralelismo humano, la adultez ocurre entre los 20 y los 25 años. En escala histórica, esto equivale a que nuestra especie podría alcanzar la madurez dentro de 200 a 500 años, si elegimos un camino de crecimiento.
+              </p>
+              <p>
+                También podríamos quedarnos estancados… o no llegar nunca a la adultez. Esa ventana es nuestro momento más formativo y también el más peligroso.
+              </p>
+            </div>
+          </div>
+
+          <div className="w-16 h-0.5 bg-white/20 mx-auto mt-4 mb-10 rounded-full" />
+
+          <p className="text-xl text-gray-200 text-center mb-16 max-w-3xl mx-auto">
+            Tres futuros posibles. Ninguno está garantizado. Todos dependen de lo que elijamos hacer hoy.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {futures.map(future => (
+              <FutureCard key={future.id} future={future} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Qué significa madurar */}
+      <section className="py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-6">
+            ¿Qué significa madurar como especie?
+          </h2>
+          <div className="mx-auto mt-4 mb-12 w-16 h-[2px] bg-white/20 rounded-full" />
+
+          <p className="text-gray-200 leading-relaxed text-lg mb-8 max-w-[720px] mx-auto">
+            Madurar como especie no es dejar de cometer errores, sino aprender a qué costo queremos seguir cometiéndolos. No se trata de volvernos perfectos, sino de asumir que nuestras decisiones tienen impacto en millones de vidas y en un planeta finito.
+          </p>
+
+          <p className="text-gray-300 text-lg mb-6 max-w-[720px] mx-auto">
+            Algunas señales de madurez serían:
+          </p>
+
+          <ul className="space-y-4 max-w-[720px] mx-auto">
+            {[
+              "Ampliar nuestro círculo de empatía: que 'nosotros' incluya a personas de otros países, culturas y también a las generaciones que todavía no nacieron.",
+              "Aceptar límites reales: entender que ni el crecimiento ni el consumo pueden ser infinitos en un mundo que sí lo es.",
+              "Integrar ciencia y ética: no solo preguntarnos qué podemos hacer técnicamente, sino qué deberíamos hacer moralmente.",
+              "Sostener el desacuerdo sin destruirnos: poder discutir proyectos de país, modelos económicos o creencias profundas sin que eso implique guerra o exterminio del otro.",
+              "Cuidar los vínculos tanto como las infraestructuras: entender que las redes afectivas y comunitarias son tan importantes como las redes eléctricas o de datos.",
+              "Dejar un mundo habitable, no solo 'más avanzado': progreso no es tener mejores dispositivos, sino mejores posibilidades de vida para quienes vienen después."
+            ].map((item, idx) => (
+              <li key={idx} className="flex items-start gap-3 text-gray-300">
+                <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <p className="text-gray-200 leading-relaxed text-lg mt-8 max-w-[720px] mx-auto">
+            Madurar como especie, en resumen, sería pasar de preguntarnos "qué podemos hacer" a preguntarnos "qué tipo de mundo queremos sostener juntos".
+          </p>
+        </div>
+      </section>
+
+      {/* Qué podemos hacer hoy */}
+      <section className="py-20 px-6 bg-gray-900/80 relative">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-center mb-6">
+            Qué podemos hacer hoy
+          </h2>
+          <p className="text-xl text-gray-300 text-center mb-12 max-w-3xl mx-auto">
+            Siendo adolescentes con tecnología de adulto
+          </p>
+
+          <p className="text-gray-200 leading-relaxed text-lg mb-12 max-w-[720px] mx-auto">
+            No podemos decidir solos el futuro de la humanidad, pero sí podemos influir en la dirección en la que empujamos. Lo que hagamos a escala individual, comunitaria y política no es suficiente por sí solo, pero tampoco es irrelevante.
+          </p>
+
+          <div className="space-y-12 max-w-[720px] mx-auto">
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">1. A nivel personal</h3>
+              <ul className="space-y-3">
+                {[
+                  "Cuidar nuestra salud mental y emocional como algo serio, no como un lujo",
+                  "Practicar la empatía activa: escuchar historias distintas a la nuestra sin necesidad de estar de acuerdo",
+                  "Revisar nuestras propias formas de consumo, información y tiempo: ¿qué estamos alimentando todos los días?",
+                  "Aprender de forma continua, especialmente sobre temas que nos incomodan o no entendemos"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-gray-300">
+                    <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
+                    <span>{item}</span>
+                  </li>
                 ))}
-              </div>
-
-              <button
-                onClick={() => setCurrentStage(Math.min(stages.length - 1, currentStage + 1))}
-                disabled={currentStage === stages.length - 1}
-                className="p-3 rounded-full bg-gray-700 hover:bg-gray-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Futures Section con fondo propio */}
-        <section className="py-20 px-6 relative overflow-hidden">
-          {/* Fondo de futuros */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-35"
-            style={{
-              backgroundImage: "url('/futures-bg.jpg')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          />
-          
-          {/* Capa oscura para contraste */}
-          <div className="absolute inset-0 bg-gray-900/80" />
-
-          <div className="relative z-10 max-w-7xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-6">
-              ¿En qué tipo de adultos podemos convertirnos?
-            </h2>
-            
-            {/* Temporal window explanation */}
-            <div className="max-w-3xl mx-auto mb-10 p-6 bg-gray-800/70 rounded-xl border border-gray-700/70">
-              <h3 className="text-2xl font-bold text-white mb-4">
-                ¿Cuándo dejaríamos de ser adolescentes como especie?
-              </h3>
-              <div className="text-gray-200 leading-relaxed space-y-3">
-                <p>
-                  Si la humanidad fuera una persona, hoy tendría unos 15 años. Convertirnos en adultos no depende del calendario, sino de las decisiones colectivas que tomemos.
-                </p>
-                <p>
-                  Pero si usamos el paralelismo humano, la adultez ocurre entre los 20 y los 25 años. En escala histórica, esto equivale a que nuestra especie podría alcanzar la madurez dentro de 200 a 500 años, si elegimos un camino de crecimiento.
-                </p>
-                <p>
-                  También podríamos quedarnos estancados… o no llegar nunca a la adultez. Esa ventana es nuestro momento más formativo y también el más peligroso.
-                </p>
-              </div>
-            </div>
-            
-            {/* Línea divisoria elegante */}
-            <div className="w-16 h-0.5 bg-white/30 mx-auto mt-8 mb-10 rounded-full"></div>
-            
-            <p className="text-xl text-gray-200 text-center mb-14 max-w-3xl mx-auto">
-              Tres futuros posibles. Ninguno está garantizado. Todos dependen de lo que elijamos hacer hoy.
-            </p>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-              {futures.map(future => (
-                <FutureCard key={future.id} future={future} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Maturity Section */}
-        <section className="py-20 px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-6">
-              ¿Qué significa madurar como especie?
-            </h2>
-            <div className="mx-auto mt-4 mb-12 w-16 h-[2px] bg-white/20 rounded-full" />
-
-            <p className="text-gray-200 leading-relaxed text-lg mb-8 max-w-[720px] mx-auto">
-              Madurar como especie no es dejar de cometer errores, sino aprender a qué costo queremos seguir cometiéndolos. No se trata de volvernos perfectos, sino de asumir que nuestras decisiones tienen impacto en millones de vidas y en un planeta finito.
-            </p>
-
-            <p className="text-gray-300 text-lg mb-6 max-w-[720px] mx-auto">
-              Algunas señales de madurez serían:
-            </p>
-
-            <ul className="space-y-4 max-w-[720px] mx-auto">
-              {[
-                "Ampliar nuestro círculo de empatía: que 'nosotros' incluya a personas de otros países, culturas y también a las generaciones que todavía no nacieron.",
-                "Aceptar límites reales: entender que ni el crecimiento ni el consumo pueden ser infinitos en un mundo que sí lo es.",
-                "Integrar ciencia y ética: no solo preguntarnos qué podemos hacer técnicamente, sino qué deberíamos hacer moralmente.",
-                "Sostener el desacuerdo sin destruirnos: poder discutir proyectos de país, modelos económicos o creencias profundas sin que eso implique guerra o exterminio del otro.",
-                "Cuidar los vínculos tanto como las infraestructuras: entender que las redes afectivas y comunitarias son tan importantes como las redes eléctricas o de datos.",
-                "Dejar un mundo habitable, no solo 'más avanzado': progreso no es tener mejores dispositivos, sino mejores posibilidades de vida para quienes vienen después."
-              ].map((item, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-gray-300">
-                  <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="text-gray-200 leading-relaxed text-lg mt-8 max-w-[720px] mx-auto">
-              Madurar como especie, en resumen, sería pasar de preguntarnos "qué podemos hacer" a preguntarnos "qué tipo de mundo queremos sostener juntos".
-            </p>
-          </div>
-        </section>
-
-        {/* Action Section */}
-        <section className="py-20 px-6 bg-gray-800/40">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-6">
-              Qué podemos hacer hoy
-            </h2>
-            <p className="text-xl text-gray-300 text-center mb-12 max-w-3xl mx-auto">
-              Siendo adolescentes con tecnología de adulto
-            </p>
-
-            <p className="text-gray-200 leading-relaxed text-lg mb-12 max-w-[720px] mx-auto">
-              No podemos decidir solos el futuro de la humanidad, pero sí podemos influir en la dirección en la que empujamos. Lo que hagamos a escala individual, comunitaria y política no es suficiente por sí solo, pero tampoco es irrelevante.
-            </p>
-
-            <div className="space-y-12 max-w-[720px] mx-auto">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">1. A nivel personal</h3>
-                <ul className="space-y-3">
-                  {[
-                    "Cuidar nuestra salud mental y emocional como algo serio, no como un lujo",
-                    "Practicar la empatía activa: escuchar historias distintas a la nuestra sin necesidad de estar de acuerdo",
-                    "Revisar nuestras propias formas de consumo, información y tiempo: ¿qué estamos alimentando todos los días?",
-                    "Aprender de forma continua, especialmente sobre temas que nos incomodan o no entendemos"
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-300">
-                      <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">2. A nivel comunitario</h3>
-                <ul className="space-y-3">
-                  {[
-                    "Participar en proyectos locales que mejoren algo concreto: comedores, espacios culturales, cooperativas, mutuales, centros educativos, etc.",
-                    "Apoyar y fortalecer redes de cuidado: grupos de apoyo, redes barriales, colectivos que defienden derechos básicos",
-                    "Generar y compartir contenido que eleve la conversación, en lugar de sumarse al ruido o al odio automático",
-                    "Crear espacios donde se pueda hablar de futuro sin caer solo en el catastrofismo ni en la fantasía ingenua"
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-300">
-                      <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">3. A nivel institucional y político</h3>
-                <ul className="space-y-3">
-                  {[
-                    "Informarse antes de votar o apoyar decisiones de gran escala, aunque lleve tiempo y esfuerzo",
-                    "Exigir transparencia, rendición de cuentas y límites claros a quienes tienen poder económico, político o tecnológico",
-                    "Apoyar políticas que reduzcan daños sistémicos (cambio climático, desigualdad extrema, violencia) aunque no nos beneficien de forma inmediata",
-                    "Impulsar que la educación incluya pensamiento crítico, alfabetización digital, ética y habilidades emocionales, no solo contenidos técnicos"
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-300">
-                      <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              </ul>
             </div>
 
-            <p className="text-gray-200 leading-relaxed text-lg mt-12 max-w-[720px] mx-auto">
-              No podemos elegir si la humanidad va a dejar de ser adolescente mañana. Pero sí podemos decidir si cada gesto nuestro refuerza la parte más destructiva de la adolescencia… o la parte que aprende, repara y crece.
-            </p>
-          </div>
-        </section>
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">2. A nivel comunitario</h3>
+              <ul className="space-y-3">
+                {[
+                  "Participar en proyectos locales que mejoren algo concreto: comedores, espacios culturales, cooperativas, mutuales, centros educativos, etc.",
+                  "Apoyar y fortalecer redes de cuidado: grupos de apoyo, redes barriales, colectivos que defienden derechos básicos",
+                  "Generar y compartir contenido que eleve la conversación, en lugar de sumarse al ruido o al odio automático",
+                  "Crear espacios donde se pueda hablar de futuro sin caer solo en el catastrofismo ni en la fantasía ingenua"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-gray-300">
+                    <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Footer principal */}
-        <footer className="py-16 px-6 border-t border-gray-700">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-6">
-              Créditos y creación
-            </h2>
-            <div className="mx-auto mt-4 mb-8 w-16 h-[2px] bg-white/20 rounded-full" />
-            
-            <div className="text-gray-300 space-y-4 max-w-[720px] mx-auto">
-              <p className="leading-relaxed">
-                Este ensayo interactivo fue creado como una metáfora para entender dónde estamos como especie y hacia dónde podríamos ir.
-              </p>
-              <p className="leading-relaxed">
-                <strong className="text-white">Idea y texto original:</strong> Alejandro Miranda (Alejano910 - Curioso Profesional y Emprendedor)
-              </p>
-              <p className="leading-relaxed">
-                <strong className="text-white">Desarrollo interactivo:</strong> Colaboración entre humanos e inteligencias artificiales.
-              </p>
-              <p className="leading-relaxed mt-8 text-center text-gray-400">
-                No pretende dar respuestas definitivas, sino abrir una conversación:<br />
-                Si la humanidad tiene apenas 15 años… ¿qué tipo de adultos queremos ser?
-              </p>
+            <div>
+              <h3 className="text-2xl font-bold text-white mb-4">3. A nivel institucional y político</h3>
+              <ul className="space-y-3">
+                {[
+                  "Informarse antes de votar o apoyar decisiones de gran escala, aunque lleve tiempo y esfuerzo",
+                  "Exigir transparencia, rendición de cuentas y límites claros a quienes tienen poder económico, político o tecnológico",
+                  "Apoyar políticas que reduzcan daños sistémicos (cambio climático, desigualdad extrema, violencia) aunque no nos beneficien de forma inmediata",
+                  "Impulsar que la educación incluya pensamiento crítico, alfabetización digital, ética y habilidades emocionales, no solo contenidos técnicos"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-gray-300">
+                    <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </footer>
 
-        {/* Footer minimalista */}
-        <footer className="text-center text-white/40 text-sm py-10 border-t border-white/10">
-          Creado por Alejano910 · 2025
-        </footer>
+          <p className="text-gray-200 leading-relaxed text-lg mt-12 max-w-[720px] mx-auto">
+            No podemos elegir si la humanidad va a dejar de ser adolescente mañana. Pero sí podemos decidir si cada gesto nuestro refuerza la parte más destructiva de la adolescencia… o la parte que aprende, repara y crece.
+          </p>
+        </div>
+      </section>
 
-        {/* Botón flotante "Volver arriba" */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition z-50"
-          aria-label="Volver arriba"
-        >
-          ↑
-        </button>
-      </div>
+      {/* Créditos */}
+      <footer className="py-16 px-6 border-t border-gray-700 bg-gray-900/90">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-6">
+            Créditos y creación
+          </h2>
+          <div className="mx-auto mt-4 mb-8 w-16 h-[2px] bg-white/20 rounded-full" />
+
+          <div className="text-gray-300 space-y-4 max-w-[720px] mx-auto">
+            <p className="leading-relaxed">
+              Este ensayo interactivo fue creado como una metáfora para entender dónde estamos como especie y hacia dónde podríamos ir.
+            </p>
+            <p className="leading-relaxed">
+              <strong className="text-white">Idea y texto original:</strong> Alejandro Miranda (Alejano910 - Curioso Profesional y Emprendedor)
+            </p>
+            <p className="leading-relaxed">
+              <strong className="text-white">Desarrollo interactivo:</strong> Colaboración entre humanos e inteligencias artificiales.
+            </p>
+            <p className="leading-relaxed mt-8 text-center text-gray-400">
+              No pretende dar respuestas definitivas, sino abrir una conversación:<br />
+              Si la humanidad tiene apenas 15 años… ¿qué tipo de adultos queremos ser?
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      <footer className="text-center text-white/40 text-sm py-10 border-t border-white/10 bg-gray-950/95">
+        Creado por Alejano910 · 2025
+      </footer>
+
+      {/* Botón volver arriba */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition z-50"
+        aria-label="Volver arriba"
+      >
+        ↑
+      </button>
     </div>
   );
 }
