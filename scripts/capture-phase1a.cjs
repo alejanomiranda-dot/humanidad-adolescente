@@ -31,7 +31,7 @@ const sizes = [[320, 740], [390, 844], [768, 1024], [1440, 900], [1920, 1080]];
         const hidden = el => {
           for (let node = el; node; node = node.parentElement) {
             const style = getComputedStyle(node);
-            if (node.hidden || style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return true;
+            if (node.hidden || node.classList.contains('sr-only') || style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return true;
           }
           return false;
         };

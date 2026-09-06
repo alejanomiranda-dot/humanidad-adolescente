@@ -626,6 +626,7 @@ export default function HumanityAdolescence() {
     dialog.showModal();
     document.body.style.overflow = 'hidden';
     dialog.querySelector('button')?.focus();
+    shareTextRef.current.scrollTop = 0;
     return () => {
       dialog.close();
       document.body.style.overflow = previousOverflow;
@@ -918,7 +919,7 @@ export default function HumanityAdolescence() {
           >
             {/* Scroll hint */}
             {showScrollHint && currentStage === 0 && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-gray-300 text-sm animate-bounce z-20 flex items-center gap-2 whitespace-nowrap">
+              <div className="absolute top-4 inset-x-0 text-gray-300 text-sm animate-bounce z-20 flex items-center justify-center gap-2 whitespace-nowrap">
                 <span>←</span> Desliza para explorar <span>→</span>
               </div>
             )}
