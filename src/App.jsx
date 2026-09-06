@@ -1,299 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Circle } from 'lucide-react';
-
-const futures = [
-  {
-    id: 1,
-    name: "Adulto maduro",
-    subtitle: "La humanidad aprende a cuidar lo que ama",
-    avatar_key: "adult_mature",
-    color: "#4A9B6F",
-    description: "En este futuro, la humanidad llega a la adultez sin perder la sensibilidad. No somos perfectos, pero aprendemos a tomar decisiones pensando en generaciones futuras. La tecnología deja de ser un fin en sí mismo y se vuelve una herramienta al servicio del cuidado: de las personas, de los vínculos y del planeta. Aceptamos nuestros errores históricos sin negarlos ni romantizarlos, y los usamos como brújula para no repetirlos.",
-    achievements: [
-      "Transición global hacia energías limpias y modelos productivos regenerativos",
-      "Sistemas de salud y educación pensados para toda la vida, no solo para 'producir'",
-      "Instituciones más transparentes, con participación ciudadana real y control público",
-      "Integración seria entre ciencia, ética y justicia social en la toma de decisiones",
-      "Reducción sostenida de la pobreza extrema y de las brechas económicas más violentas"
-    ],
-    wounds: [
-      "Duelo colectivo por especies y culturas que ya se perdieron",
-      "Conflictos de adaptación: generaciones que se resisten a renunciar a privilegios",
-      "Cansancio emocional frente a décadas de crisis encadenadas",
-      "Tensiones entre identidades locales y acuerdos globales"
-    ],
-    risks: [
-      "Que la sensación de 'estar mejor' nos haga bajar la guardia ante nuevos autoritarismos",
-      "Que los logros se concentren en algunas regiones y otras queden rezagadas",
-      "Que la tecnología 'ética' termine siendo un lujo de países ricos",
-      "Que normalicemos un nivel 'medio aceptable' de injusticia y dejemos de incomodarnos"
-    ]
-  },
-  {
-    id: 2,
-    name: "Adulto cínico",
-    subtitle: "La humanidad se acostumbra a sobrevivir sin esperanza",
-    avatar_key: "adult_cynic",
-    color: "#6B7280",
-    description: "En este futuro, la humanidad llega técnicamente a la adultez, pero emocionalmente se apaga. Logramos estabilizar el mundo lo suficiente como para que no colapse, pero no para hacerlo verdaderamente justo. Hay avances tecnológicos impresionantes, ciudades inteligentes y vidas hiperconectadas, pero una parte grande de la población vive en una mezcla de resignación, ansiedad y distracción permanente. No explotamos del todo, pero tampoco sanamos: solo seguimos funcionando.",
-    achievements: [
-      "Control relativo de grandes crisis: pandemias, inflación descontrolada, estallidos bélicos",
-      "Innovaciones tecnológicas que mejoran el confort de parte de la población",
-      "Sistemas de vigilancia y gestión de datos que permiten anticipar algunos desastres",
-      "Incremento de la esperanza de vida promedio y tratamientos avanzados para muchas enfermedades"
-    ],
-    wounds: [
-      "Normalización de la desigualdad extrema como 'parte del sistema'",
-      "Desconfianza generalizada en instituciones, medios y discursos políticos",
-      "Soledad masiva en contextos hiperconectados; vínculos superficiales y frágiles",
-      "Fatiga crónica ante la avalancha de información, conflictos y crisis"
-    ],
-    risks: [
-      "Que el cinismo se vuelva la emoción dominante: 'nada va a cambiar, así que da lo mismo'",
-      "Avance silencioso de regímenes autoritarios bajo la excusa del orden y la seguridad",
-      "Estallidos sociales impredecibles cuando la apatía se rompe de golpe",
-      "Dependencia casi total de sistemas tecnológicos que poca gente entiende o controla"
-    ]
-  },
-  {
-    id: 3,
-    name: "Adulto truncado",
-    subtitle: "Cuando una especie no llega a la adultez",
-    avatar_key: "adult_broken",
-    color: "#7C2D12",
-    description: "En este futuro, la humanidad no logra atravesar su adolescencia. No necesariamente significa extinción total inmediata, pero sí colapsos civilizatorios grandes y duraderos. Regiones enteras se vuelven prácticamente inhabitables, se pierden saberes, infraestructuras y memorias culturales. Sobreviven grupos humanos, pero el proyecto de 'humanidad planetaria conectada' se rompe. Lo que hoy conocemos como historia, ciencia y derechos se fragmenta, se olvida o queda guardado en restos de servidores que ya nadie puede mantener.",
-    achievements: [
-      "Restos de conocimiento científico y tecnológico dispersos, conservados por pequeñas comunidades",
-      "Experiencias locales de cooperación y cuidado en medio del colapso",
-      "Aprendizajes dolorosos sobre los límites físicos y ecológicos del planeta"
-    ],
-    wounds: [
-      "Pérdida masiva de vidas humanas por guerras, crisis climáticas y hambrunas",
-      "Desaparición de lenguas, culturas, obras de arte y archivos completos",
-      "Trauma transgeneracional: generaciones nacidas en el caos sin memoria clara de un mundo estable",
-      "Retrocesos en derechos básicos, especialmente para mujeres, minorías y grupos vulnerables"
-    ],
-    risks: [
-      "Extinción total en el mediano o largo plazo por encadenamiento de crisis",
-      "Aparición de líderes mesiánicos violentos que explotan el miedo y la escasez",
-      "Que las pocas tecnologías supervivientes (IA, bio, energía) caigan en manos de grupos sin freno ético",
-      "Que incluso los que sobrevivan concluyan que 'no vale la pena' reconstruir algo colectivo"
-    ]
-  }
-];
-
-const stages = [
-  {
-    id: 1,
-    age_human: "0-2 años",
-    age_label: "Bebé",
-    age_real: "50.000 a.C. – 10.000 a.C.",
-    avatar_key: "baby",
-    title: "Aprendiendo a sobrevivir",
-    subtitle: "La humanidad bebé",
-    achievements: [
-      "Desarrollo del lenguaje simbólico",
-      "Dominio básico del fuego",
-      "Uso de herramientas primitivas",
-      "Organización en pequeñas bandas nómadas"
-    ],
-    wounds: [
-      "Vulnerabilidad extrema frente al clima y depredadores",
-      "Esperanza de vida muy baja",
-      "Dependencia total del entorno natural"
-    ],
-    risks: [
-      "Extinción por cambios climáticos o catástrofes naturales",
-      "Falta de recursos en ciertas regiones",
-      "Alta mortalidad infantil y adulta"
-    ],
-    text: "En esta etapa, la humanidad es como un bebé que recién abre los ojos al mundo. Vivimos en grupos pequeños, seguimos a los animales y a las estaciones. No producimos, sólo recolectamos y cazamos. No controlamos el entorno: el entorno nos controla a nosotros. Aprendemos a usar el fuego, a fabricar herramientas y a comunicarnos mejor, pero seguimos siendo frágiles y totalmente dependientes de la naturaleza."
-  },
-  {
-    id: 2,
-    age_human: "3-5 años",
-    age_label: "Niñez temprana",
-    age_real: "10.000 a.C. – 4.000 a.C.",
-    avatar_key: "early_child",
-    title: "Hacer que la comida venga a casa",
-    subtitle: "La humanidad descubre la agricultura",
-    achievements: [
-      "Invención de la agricultura",
-      "Domesticación de animales",
-      "Aparición de aldeas estables",
-      "Desarrollo de la cerámica y almacenamiento de alimentos"
-    ],
-    wounds: [
-      "Primeras desigualdades en el acceso a la tierra y la comida",
-      "Dependencia del clima y de las cosechas",
-      "Aumento del esfuerzo físico y del trabajo repetitivo"
-    ],
-    risks: [
-      "Hambrunas por malas cosechas",
-      "Enfermedades asociadas a la vida sedentaria",
-      "Conflictos iniciales por territorios y recursos"
-    ],
-    text: "Como un niño que empieza a caminar solo, la humanidad aprende a hacer que la comida crezca cerca. Dejamos de movernos tanto y construimos aldeas. Con la agricultura y la ganadería aparece el excedente: sobra comida. Y cuando sobra algo, aparece la pregunta de quién lo controla. Nacen las primeras diferencias de poder, los primeros jefes y las primeras tensiones por la tierra."
-  },
-  {
-    id: 3,
-    age_human: "6-8 años",
-    age_label: "Niñez media",
-    age_real: "4.000 a.C. – 1.000 a.C.",
-    avatar_key: "middle_child",
-    title: "Ciudades, leyes y reyes",
-    subtitle: "La humanidad se organiza en grande",
-    achievements: [
-      "Nacimiento de las primeras ciudades-estado",
-      "Invención de la escritura",
-      "Primeros códigos de leyes escritos",
-      "Desarrollo del riego y la ingeniería hidráulica",
-      "Organización de ejércitos estables"
-    ],
-    wounds: [
-      "Aparición de monarquías absolutas",
-      "Esclavitud institucionalizada",
-      "Guerras recurrentes entre ciudades y reinos"
-    ],
-    risks: [
-      "Colapso de ciudades por mala gestión del agua y del suelo",
-      "Guerras constantes por poder y territorio",
-      "Concentración extrema del poder en pocas manos"
-    ],
-    text: "La humanidad entra en una especie de primaria avanzada. Aprendemos a leer y a escribir, pero también a imponer y castigar. Aparecen ciudades como Uruk, Ur o Tebas, con templos, burocracia e impuestos. Los reyes y sacerdotes se colocan por encima del resto y justifican su poder con dioses. Las leyes ordenan, pero también oprimen. Somos más organizados, pero también más duros entre nosotros. El crecimiento trae orden, pero también costo emocional."
-  },
-  {
-    id: 4,
-    age_human: "9-11 años",
-    age_label: "Preadolescencia",
-    age_real: "1.000 a.C. – 1500 d.C.",
-    avatar_key: "preteen",
-    title: "Imperios, dioses y grandes relatos",
-    subtitle: "La humanidad busca sentido",
-    achievements: [
-      "Formación de grandes imperios (romano, persa, chino, etc.)",
-      "Desarrollo de filosofías y religiones universales",
-      "Avances en ingeniería, arquitectura y organización militar",
-      "Codificación de tradiciones orales en textos sagrados y legales"
-    ],
-    wounds: [
-      "Guerras de conquista a gran escala",
-      "Persecuciones religiosas y fanatismos",
-      "Sistemas rígidos de castas y jerarquías sociales"
-    ],
-    risks: [
-      "Colapso de imperios por sobreexpansión y corrupción",
-      "Pandemias sin control",
-      "Estancamiento científico por dogmatismo"
-    ],
-    text: "La humanidad entra en su preadolescencia: no sólo vive y obedece, ahora se pregunta por el sentido. Nacen grandes religiones, filosofías y relatos que intentan explicar quiénes somos y qué deberíamos hacer. Pero esas mismas ideas también dividen y justifican cruzadas, invasiones y purgas. Construimos catedrales, murallas y caminos, pero mantenemos una estructura social rígida y violenta. Estamos creciendo, pero todavía no sabemos manejar lo que sentimos ni lo que creemos. La humanidad empezó a pensar más de lo que entendía. Queríamos respuestas, pero todavía no sabíamos hacernos preguntas maduras."
-  },
-  {
-    id: 5,
-    age_human: "12-13 años",
-    age_label: "Adolescencia temprana",
-    age_real: "1500 – 1900",
-    avatar_key: "early_teen",
-    title: "Ciencia, máquinas y conquista global",
-    subtitle: "La humanidad descubre su propio poder",
-    achievements: [
-      "Nacimiento de la ciencia moderna y el método científico",
-      "Renacimiento cultural y artístico",
-      "Exploración y colonización de casi todo el planeta",
-      "Revolución industrial y máquinas a vapor",
-      "Ideas modernas de libertad, república y derechos"
-    ],
-    wounds: [
-      "Colonialismo y saqueo de continentes enteros",
-      "Esclavitud transatlántica a gran escala",
-      "Explotación brutal de trabajadores y niños",
-      "Destrucción ambiental inicial por la industrialización"
-    ],
-    risks: [
-      "Profundización de la desigualdad global",
-      "Conflictos crecientes por recursos y poder",
-      "Dependencia de sistemas económicos que necesitan crecimiento infinito"
-    ],
-    text: "La humanidad se comporta como un adolescente brillante que descubre que es fuerte e inteligente, pero todavía no desarrolla empatía. Inventamos telescopios, imprentas, motores, vacunas. Navegamos todo el planeta y lo cartografiamos. Pero usamos ese poder para conquistar, esclavizar y explotar. Hablamos de libertad y derechos, mientras negamos esos mismos derechos a millones de personas. El potencial es enorme, la contradicción también."
-  },
-  {
-    id: 6,
-    age_human: "14-16 años",
-    age_label: "Adolescencia plena",
-    age_real: "1900 – hoy",
-    avatar_key: "full_teen",
-    title: "Entre la autodestrucción y la madurez",
-    subtitle: "La humanidad en su etapa más peligrosa",
-    achievements: [
-      "Desarrollo de la energía moderna (electricidad, nuclear, renovables)",
-      "Avances masivos en medicina y aumento de la esperanza de vida",
-      "Informática, internet y comunicación global instantánea",
-      "Inteligencia artificial y biotecnología avanzada",
-      "Reconocimiento formal de los derechos humanos y de las minorías"
-    ],
-    wounds: [
-      "Guerras mundiales con destrucción masiva",
-      "Creación y proliferación de armas nucleares",
-      "Crisis climática y pérdida acelerada de biodiversidad",
-      "Desigualdades económicas extremas",
-      "Ansiedad, soledad y fragmentación social en la era digital"
-    ],
-    risks: [
-      "Autodestrucción mediante guerra nuclear",
-      "Colapso ecológico y social por cambio climático",
-      "Uso irresponsable o malicioso de la inteligencia artificial",
-      "Deriva hacia sistemas de vigilancia total y autoritarismo digital"
-    ],
-    text: "Hoy la humanidad es un adolescente con herramientas de adulto. Tenemos la capacidad de curar enfermedades, viajar al espacio, comunicarnos en segundos a cualquier lugar del mundo y crear máquinas que aprenden. Pero también tenemos la capacidad de destruirnos en cuestión de horas. Seguimos atrapados entre la cooperación y la competencia extrema, entre el cuidado y el saqueo, entre el diálogo y el odio. Estamos en la etapa más peligrosa: la de decidir si vamos a crecer o a repetir nuestros impulsos hasta romperlo todo. Somos capaces de convertirnos en adultos sabios… o en una especie que no llegue a la adultez."
-  }
-];
+import { futures } from './content/futures.js';
+import { stages } from './content/stages.js';
+import { questions, quizResults } from './content/quiz.js';
+import { avatarConfigs } from './content/avatars.js';
+import { maturitySignals, personalActions, communityActions, institutionalActions } from './content/reflections.js';
+import { perspectiveKeys, projectShareText } from './content/shared.js';
 
 const QuizComponent = ({ onComplete }) => {
   const [answers, setAnswers] = useState({});
   const [currentQ, setCurrentQ] = useState(0);
-
-  const questions = [
-    {
-      q: "¿Cómo reaccionas cuando alguien te contradice?",
-      options: [
-        { text: "Me enojo y defiendo mi posición agresivamente", value: 1 },
-        { text: "Escucho pero me cuesta cambiar de opinión", value: 2 },
-        { text: "Considero su punto de vista y puedo cambiar mi perspectiva", value: 3 }
-      ]
-    },
-    {
-      q: "¿Cómo usas la tecnología?",
-      options: [
-        { text: "La uso sin pensar en consecuencias", value: 1 },
-        { text: "Intento usarla responsablemente pero a veces fallo", value: 2 },
-        { text: "La uso conscientemente, pensando en su impacto", value: 3 }
-      ]
-    },
-    {
-      q: "¿Cómo te relacionas con personas de otras culturas o ideas?",
-      options: [
-        { text: "Desconfío o me cierran las diferencias", value: 1 },
-        { text: "Tengo curiosidad pero me cuesta salir de mi zona de confort", value: 2 },
-        { text: "Me enriquezco con la diversidad activamente", value: 3 }
-      ]
-    },
-    {
-      q: "¿Pensás en las generaciones futuras al tomar decisiones?",
-      options: [
-        { text: "No, me enfoco en el presente inmediato", value: 1 },
-        { text: "A veces, pero no es mi prioridad", value: 2 },
-        { text: "Sí, considero el impacto a largo plazo", value: 3 }
-      ]
-    },
-    {
-      q: "¿Cómo manejás tus emociones intensas?",
-      options: [
-        { text: "Exploto o las reprimo sin procesar", value: 1 },
-        { text: "Intento controlarlas pero a veces me desbordan", value: 2 },
-        { text: "Las reconozco, proceso y expreso sanamente", value: 3 }
-      ]
-    }
-  ];
 
   const handleAnswer = (value) => {
     const newAnswers = { ...answers, [currentQ]: value };
@@ -312,23 +28,11 @@ const QuizComponent = ({ onComplete }) => {
     
     let result;
     if (avg <= 1.5) {
-      result = {
-        stage: "Adolescencia temprana",
-        description: "Estás en proceso de descubrir quién sos y cómo relacionarte con el mundo.",
-        message: "La buena noticia: estás consciente y podés crecer. Cada decisión cuenta."
-      };
+      result = { ...quizResults.earlyAdolescence };
     } else if (avg <= 2.5) {
-      result = {
-        stage: "Adolescencia plena",
-        description: "Tenés las herramientas pero todavía estás aprendiendo a usarlas sabiamente.",
-        message: "Estás en el momento perfecto para dar el salto hacia la madurez."
-      };
+      result = { ...quizResults.fullAdolescence };
     } else {
-      result = {
-        stage: "Adultez emergente",
-        description: "Mostrás señales de madurez emocional y consciencia sobre tu impacto.",
-        message: "Tu trabajo ahora es ayudar a otros a crecer también."
-      };
+      result = { ...quizResults.emergingAdulthood };
     }
     onComplete(result);
   };
@@ -408,7 +112,7 @@ const FutureCard = ({ future }) => {
 
       <div className="space-y-4">
         <div className="flex flex-wrap gap-1 sm:gap-2 border-b border-gray-700" role="group" aria-label={`Perspectivas: ${future.name}`}>
-          {['achievements', 'wounds', 'risks'].map(tab => (
+          {perspectiveKeys.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -440,15 +144,6 @@ const FutureCard = ({ future }) => {
 };
 
 const Avatar = ({ stage, isActive }) => {
-  const avatarConfigs = {
-    baby: { size: 80, head: 50, body: 30, color: '#F4A460' },
-    early_child: { size: 100, head: 55, body: 45, color: '#E8A050' },
-    middle_child: { size: 120, head: 60, body: 60, color: '#D89040' },
-    preteen: { size: 140, head: 65, body: 75, color: '#C87830' },
-    early_teen: { size: 160, head: 70, body: 90, color: '#B06020' },
-    full_teen: { size: 180, head: 75, body: 105, color: '#8B4513' }
-  };
-
   const config = avatarConfigs[stage.avatar_key];
 
   return (
@@ -538,7 +233,7 @@ const TimelineStage = ({ stage, isActive, onReadingChange }) => {
           {/* Tabs */}
           <div className="space-y-4">
             <div className="flex flex-wrap gap-1 sm:gap-2 border-b border-gray-700" role="group" aria-label={`Perspectivas: ${stage.age_label}`}>
-              {['achievements', 'wounds', 'risks'].map(tab => (
+              {perspectiveKeys.map(tab => (
                 <button
                   key={tab}
                   onClick={() => { setActiveTab(tab); onReadingChange(); }}
@@ -679,7 +374,6 @@ export default function HumanityAdolescence() {
     timelineRef.current.focus({ preventScroll: true });
   };
 
-  const projectShareText = "Descubrí que la humanidad tiene 15 años. ¿En qué etapa emocional estamos como especie?";
   const resultShareText = quizResult
     ? `Mi resultado en La Humanidad Adolescente: ${quizResult.stage}. ${quizResult.description} ${quizResult.message}`
     : projectShareText;
@@ -1146,14 +840,7 @@ export default function HumanityAdolescence() {
           </p>
 
           <ul className="space-y-4 max-w-[720px] mx-auto">
-            {[
-              "Ampliar nuestro círculo de empatía: que 'nosotros' incluya a personas de otros países, culturas y también a las generaciones que todavía no nacieron.",
-              "Aceptar límites reales: entender que ni el crecimiento ni el consumo pueden ser infinitos en un mundo finito.",
-              "Integrar ciencia y ética: no solo preguntarnos qué podemos hacer técnicamente, sino qué deberíamos hacer moralmente.",
-              "Sostener el desacuerdo sin destruirnos: poder discutir proyectos de país, modelos económicos o creencias profundas sin que eso implique guerra o exterminio del otro.",
-              "Cuidar los vínculos tanto como las infraestructuras: entender que las redes afectivas y comunitarias son tan importantes como las redes eléctricas o de datos.",
-              "Dejar un mundo habitable, no solo 'más avanzado': progreso no es tener mejores dispositivos, sino mejores posibilidades de vida para quienes vienen después."
-            ].map((item, idx) => (
+            {maturitySignals.map((item, idx) => (
               <li key={idx} className="flex items-start gap-3 text-gray-300">
                 <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
                 <span>{item}</span>
@@ -1214,12 +901,7 @@ export default function HumanityAdolescence() {
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">1. A nivel personal</h3>
               <ul className="space-y-3">
-                {[
-                  "Cuidar nuestra salud mental y emocional como algo serio, no como un lujo",
-                  "Practicar la empatía activa: escuchar historias distintas a la nuestra sin necesidad de estar de acuerdo",
-                  "Revisar nuestras propias formas de consumo, información y tiempo: ¿qué estamos alimentando todos los días?",
-                  "Aprender de forma continua, especialmente sobre temas que nos incomodan o no entendemos"
-                ].map((item, idx) => (
+                {personalActions.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-gray-300">
                     <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
                     <span>{item}</span>
@@ -1231,12 +913,7 @@ export default function HumanityAdolescence() {
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">2. A nivel comunitario</h3>
               <ul className="space-y-3">
-                {[
-                  "Participar en proyectos locales que mejoren algo concreto: comedores, espacios culturales, cooperativas, mutuales, centros educativos, etc.",
-                  "Apoyar y fortalecer redes de cuidado: grupos de apoyo, redes barriales, colectivos que defienden derechos básicos",
-                  "Generar y compartir contenido que eleve la conversación, en lugar de sumarse al ruido o al odio automático",
-                  "Crear espacios donde se pueda hablar de futuro sin caer solo en el catastrofismo ni en la fantasía ingenua"
-                ].map((item, idx) => (
+                {communityActions.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-gray-300">
                     <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
                     <span>{item}</span>
@@ -1248,12 +925,7 @@ export default function HumanityAdolescence() {
             <div>
               <h3 className="text-2xl font-bold text-white mb-4">3. A nivel institucional y político</h3>
               <ul className="space-y-3">
-                {[
-                  "Informarse antes de votar o apoyar decisiones de gran escala, aunque lleve tiempo y esfuerzo",
-                  "Exigir transparencia, rendición de cuentas y límites claros a quienes tienen poder económico, político o tecnológico",
-                  "Apoyar políticas que reduzcan daños sistémicos (cambio climático, desigualdad extrema, violencia) aunque no nos beneficien de forma inmediata",
-                  "Impulsar que la educación incluya pensamiento crítico, alfabetización digital, ética y habilidades emocionales, no solo contenidos técnicos"
-                ].map((item, idx) => (
+                {institutionalActions.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-gray-300">
                     <Circle className="w-2 h-2 mt-2 flex-shrink-0 fill-current" />
                     <span>{item}</span>

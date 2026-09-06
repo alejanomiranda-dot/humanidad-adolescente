@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const url = process.argv[2] || 'http://127.0.0.1:4173';
+const url = process.argv.slice(2).find(arg => arg !== '--functional') || 'http://127.0.0.1:4173';
 const output = path.resolve('.audit', 'verification');
 const sizes = [[320, 740], [390, 844], [768, 1024], [1440, 900], [1920, 1080]];
 const tabs = ['Logros', 'Heridas', 'Riesgos'];
