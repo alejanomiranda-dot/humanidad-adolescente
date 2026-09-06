@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.vercel/
+.audit/
+.env*
+!.env.example

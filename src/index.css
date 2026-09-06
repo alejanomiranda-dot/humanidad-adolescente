@@ -54,3 +54,65 @@ body {
     transform: translateY(0);
   }
 }
+
+[hidden] {
+  display: none !important;
+}
+
+:where(button, a, textarea, [tabindex]):focus-visible {
+  outline: 3px solid #fbbf24;
+  outline-offset: 4px;
+}
+
+#timeline:focus-visible {
+  outline-offset: -6px;
+}
+
+.share-dialog {
+  width: min(28rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  margin: auto;
+  border: 1px solid #4b5563;
+}
+
+.share-dialog::backdrop {
+  background: rgb(0 0 0 / 80%);
+}
+
+@media (max-width: 479px) {
+  .hero-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  /* Keep the floating control outside the reading column on small screens. */
+  .back-to-top {
+    right: 2px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .back-to-top button {
+    width: 24px;
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .animate-fade-in-up,
+  [class*="animate-[cardFadeIn"],
+  [class*="animate-[avatarPop"] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
