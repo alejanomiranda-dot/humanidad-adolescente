@@ -5,7 +5,9 @@ import "./index.css";
 
 const isPhase2A = new URLSearchParams(window.location.search).get("prototype") === "phase2a";
 const Phase2APrototype = isPhase2A
-  ? React.lazy(() => import("./prototypes/phase2a/Phase2APrototype.jsx"))
+  ? React.lazy(() => new URLSearchParams(window.location.search).get("study") === "webgl"
+    ? import("./prototypes/phase2a/Phase2APrototype.jsx")
+    : import("./prototypes/phase2a2/MasterShot.jsx"))
   : null;
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -1,0 +1,93 @@
+{
+  "source": "Generated with scripts/production/master-shot.py; no third-party assets",
+  "blender": "4.5.13 LTS / Cycles / 32 samples / AgX",
+  "frames": 120,
+  "fps": 24,
+  "durationSeconds": 5,
+  "encodes": [
+    {
+      "file": "membrane.webp",
+      "seconds": 0.105
+    },
+    {
+      "file": "neck.webp",
+      "seconds": 0.086
+    },
+    {
+      "file": "division.webp",
+      "seconds": 0.082
+    },
+    {
+      "file": "membrane-high-av1.webm",
+      "seconds": 0.864
+    },
+    {
+      "file": "comparison-high-vp9.webm",
+      "seconds": 1.892
+    },
+    {
+      "file": "membrane-high.mp4",
+      "seconds": 0.513
+    },
+    {
+      "file": "comparison-medium-vp9.webm",
+      "seconds": 1.335
+    },
+    {
+      "file": "membrane-medium.mp4",
+      "seconds": 0.367
+    }
+  ],
+  "files": [
+    {
+      "name": "cosmos.webp",
+      "bytes": 10786,
+      "sha256": "55dd81a49b0188d327359de2c99a7f4611505fbf2b0dab6bb1d3c72fef8a51f3"
+    },
+    {
+      "name": "division.webp",
+      "bytes": 7142,
+      "sha256": "d11afd7f20ae57ad87fa7e7e108d382f80965e7c28d021daa3f0064acb8e9495"
+    },
+    {
+      "name": "horizon.webp",
+      "bytes": 10972,
+      "sha256": "0ccfb4152751fb432db2e1f899a7bb1fca027dc56f47a29bde96c4f45b791db1"
+    },
+    {
+      "name": "information.webp",
+      "bytes": 14920,
+      "sha256": "763aa46bfc801cc890cdaf6ab53943e7db608301620d1bd6bd72a8a567339ce6"
+    },
+    {
+      "name": "membrane-high-av1.webm",
+      "bytes": 76248,
+      "sha256": "3bd50e141e098eb21aca8cdb88f418f890d33086b6bc1e4ff247925211913ae6"
+    },
+    {
+      "name": "membrane-high.mp4",
+      "bytes": 138155,
+      "sha256": "179b5cdd082f73dc543c4d00ba5ec05d1d94f19c062a7650aa716f1e9b7fa91c"
+    },
+    {
+      "name": "membrane-medium.mp4",
+      "bytes": 53190,
+      "sha256": "bcc63dee496c4a67acdd197f003cf69f6c9eff2a15121c34487baebfb4d3c5fb"
+    },
+    {
+      "name": "membrane.webp",
+      "bytes": 7256,
+      "sha256": "5e3fcc71f4142899ac3660b453d40a3570c6893b253a2189bbb7ad793f78f0eb"
+    },
+    {
+      "name": "neck.webp",
+      "bytes": 7678,
+      "sha256": "013a04827180bfb98565bb12b526d2fcdaeec481ac7842e88c9400cc95b08839"
+    },
+    {
+      "name": "water.webp",
+      "bytes": 8382,
+      "sha256": "cd2681601258ccf3993992e9cf1376bf9d17a00632634e663becac32d0f45f50"
+    }
+  ]
+}
