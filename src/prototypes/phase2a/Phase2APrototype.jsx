@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SceneCanvas from './SceneCanvas.jsx';
+import OriginsVisual from './OriginsVisual.jsx';
 import './phase2a.css';
 
 function useReducedMotion() {
@@ -15,23 +16,49 @@ function useReducedMotion() {
 
 function Arrival({ reduced }) {
   const arrivalRef = useRef(null);
+  const frameRef = useRef(null);
   const [phase, setPhase] = useState(0);
   useEffect(() => {
     if (reduced) { setPhase(2); return; }
     let timers = [];
     let started = false;
+    let frame = 0;
+    let reached = 0;
+    const advance = next => {
+      if (next <= reached) return;
+      reached = next;
+      setPhase(previous => Math.max(previous, next));
+    };
+    const readScroll = () => {
+      frame = 0;
+      const rect = arrivalRef.current.getBoundingClientRect();
+      const travel = Math.max(1, rect.height - frameRef.current.offsetHeight);
+      const progress = Math.max(0, -rect.top / travel);
+      if (progress >= 0.3) advance(2);
+      else if (progress >= 0.12) advance(1);
+    };
+    const onScroll = () => {
+      if (reached < 2 && !frame) frame = requestAnimationFrame(readScroll);
+    };
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && entry.intersectionRatio >= 0.95 && !started) {
         started = true;
-        timers = [setTimeout(() => setPhase(1), 2200), setTimeout(() => setPhase(2), 2900)];
+        timers = [setTimeout(() => advance(1), 2200), setTimeout(() => advance(2), 2900)];
       }
     }, { threshold: [0, 0.95] });
-    observer.observe(arrivalRef.current);
-    return () => { observer.disconnect(); timers.forEach(clearTimeout); };
+    observer.observe(frameRef.current);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    readScroll();
+    return () => {
+      observer.disconnect(); timers.forEach(clearTimeout); cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [reduced]);
   return (
     <div className="p2-arrival" id="p2-arrival" ref={arrivalRef} data-phase={reduced ? 2 : phase}>
-      <h2 className="p2-hello" tabIndex={-1}>Hola.<span className="p2-cursor" aria-hidden="true" /></h2>
+      <div className="p2-arrival-frame" ref={frameRef}>
+        <h2 className="p2-hello" tabIndex={-1}>Hola.<span className="p2-cursor" aria-hidden="true" /></h2>
+      </div>
     </div>
   );
 }
@@ -43,8 +70,9 @@ export default function Phase2APrototype() {
     <main className="p2-prototype">
       <a className="p2-skip" href="#p2-astra-copy">Saltar al prototipo de Astra</a>
 
+      <div className="p2-origins" data-scene="origins">
+      <OriginsVisual reduced={reduced} />
       <section className="p2-scene p2-existence" data-scene="existence" aria-labelledby="p2-existence-title">
-        <SceneCanvas kind="cosmos" reduced={reduced} />
         <div className="p2-panel p2-opening" id="p2-existence">
           <div className="p2-scene-label"><span>01 / EXISTENCIA</span><span>PROTOTIPO · 2A</span></div>
           <h1 id="p2-existence-title">Antes de la vida,<br />ya había <span>existencia.</span></h1>
@@ -71,7 +99,6 @@ export default function Phase2APrototype() {
       </section>
 
       <section className="p2-scene p2-life" data-scene="life" aria-labelledby="p2-life-heading">
-        <SceneCanvas kind="life" reduced={reduced} />
         <div className="p2-panel p2-life-intro">
           <p className="p2-eyebrow">02 / VIDA</p>
           <h2 id="p2-life-heading">En la Tierra, parte de la materia empezó a organizarse de una manera distinta.</h2>
@@ -93,6 +120,7 @@ export default function Phase2APrototype() {
           <h3>VIDA ≠ CONCIENCIA</h3>
         </div>
       </section>
+      </div>
 
       <section className="p2-scene p2-acceleration" data-scene="acceleration" aria-labelledby="p2-ai-heading">
         <SceneCanvas kind="acceleration" reduced={reduced} />

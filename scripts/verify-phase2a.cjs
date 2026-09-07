@@ -91,16 +91,22 @@ async function inspect(page, selector) {
       window.canvasStrokes = { cosmos: 0, life: 0, acceleration: 0 };
       const stroke = CanvasRenderingContext2D.prototype.stroke;
       CanvasRenderingContext2D.prototype.stroke = function (...args) {
-        const name = this.canvas.closest('[data-scene]')?.dataset.scene;
+        const name = this.canvas.dataset.view || this.canvas.closest('[data-scene]')?.dataset.scene;
         if (name) window.canvasStrokes[name] = (window.canvasStrokes[name] || 0) + 1;
         return stroke.apply(this, args);
       };
+      const draw = WebGLRenderingContext.prototype.drawArrays;
+      WebGLRenderingContext.prototype.drawArrays = function (...args) {
+        const name = this.canvas.dataset.view;
+        if (name) window.canvasStrokes[name] = (window.canvasStrokes[name] || 0) + 1;
+        return draw.apply(this, args);
+      };
     });
     await page.goto(prototype.href, { waitUntil: 'networkidle' });
-    const cosmos = page.locator('[data-scene="existence"] canvas');
-    const before = await cosmos.evaluate(el => el.toDataURL());
+    const cosmos = page.locator('[data-scene="origins"] canvas');
+    const before = await cosmos.screenshot();
     await page.mouse.move(1200, 200); await page.waitForTimeout(100);
-    assert.notEqual(await cosmos.evaluate(el => el.toDataURL()), before);
+    assert.equal((await cosmos.screenshot()).equals(before), false);
     await at(page, '#p2-life');
     const strokes = await page.evaluate(() => window.canvasStrokes.life);
     await page.waitForTimeout(250);
@@ -109,9 +115,9 @@ async function inspect(page, selector) {
     const stopped = await page.evaluate(() => window.canvasStrokes.life);
     await page.waitForTimeout(200);
     assert.equal(await page.evaluate(() => window.canvasStrokes.life), stopped);
-    const still = await page.locator('[data-scene="life"] canvas').evaluate(el => el.toDataURL());
+    const still = await page.locator('[data-scene="origins"] canvas').evaluate(el => el.toDataURL());
     await page.mouse.move(100, 700); await page.waitForTimeout(100);
-    assert.equal(await page.locator('[data-scene="life"] canvas').evaluate(el => el.toDataURL()), still);
+    assert.equal(await page.locator('[data-scene="origins"] canvas').evaluate(el => el.toDataURL()), still);
     checks.push('Subtle pointer parallax works; live reduced-motion stops continuous cell drawing and pointer parallax');
 
     await page.emulateMedia({ reducedMotion: 'no-preference' });

@@ -123,3 +123,11 @@ No se detectaron regresiones en la experiencia original. Las pruebas se realizar
 Verificación mínima de cierre: build aprobado nuevamente, sin cambios visuales posteriores a la evaluación. Se comprobó que la URL normal sólo monta la experiencia original y no carga los recursos del prototipo; que `?prototype=phase2a` sólo monta el laboratorio; y que reduced-motion muestra Hola sin espera ni parpadeo, con el campo de conversación deshabilitado. Consola sin errores ni advertencias capturados. No se repitieron las matrices ya aprobadas. El build conserva los mismos nombres/hashes de assets evaluados y las capturas/reportes `.audit` permanecen fuera del commit.
 
 Commit y push únicamente a `humanidad-adolescente-v2`, con comprobación del SHA y Preview READY. La URL normal sigue siendo la obra estabilizada; `?prototype=phase2a` muestra exclusivamente el laboratorio. No hay merge a `main`, promoción a producción, integración real de Astra ni desarrollo de los demás actos. La tarea termina en Fase 2A.
+
+## Fase 2A.1
+
+El pedido posterior cambió el objetivo a **Visual Ceiling / Ultra Premium Interestelar**. Se preservó el ensayo en curso y se auditó la capacidad gráfica antes de introducir WebGL. La auditoría, elecciones, comparación crítica, pesos, pruebas y limitaciones están en [phase-2a1.md](phase-2a1.md).
+
+Existencia/Vida incorporan un renderer WebGL diferido y un shader de superficie orgánica 3D; Canvas continúa como fallback y reduced-motion. La continuidad usa un canvas compartido. Se conserva la progresión de marcas/símbolos/lenguaje de la transición ya existente y la llegada sticky de Hola con avance por scroll, sin textos nuevos ni actos adicionales. Astra mantiene negro y lenguaje. No se instalaron Blender, Three.js ni nuevas dependencias.
+
+Build, verificadores de 2A/Visual Ceiling, smoke y comparación de la obra original aprobados. Se revisaron imágenes en los cinco anchos; las 15 capturas de la obra original son idénticas. El volumen y la división mejoraron claramente, pero el recorrido de escalas y el material todavía **no se consideran arte final ultra premium**. Se guarda una propuesta verificable para evaluación artística, sin avanzar a 2B.
