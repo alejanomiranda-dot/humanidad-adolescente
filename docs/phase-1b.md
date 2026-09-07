@@ -89,3 +89,49 @@ No se detectaron regresiones visuales ni funcionales. Las capturas, comparadores
 ### Cierre
 
 Se entrega mediante commit y push a `humanidad-adolescente-v2`. Después del push se comprueba que el Preview esté READY y asociado exactamente al SHA final, informado en la entrega. No se modifica `main` ni se promueve a producción. La tarea termina en 1B.2; no se avanza a extracción de hooks o lógica (1B.3).
+
+## Fase 1B.3A
+
+Estado: completada. Base: `8131cc35d4652171738be5a0b39f5c6520835798`, rama `humanidad-adolescente-v2`.
+
+### Objetivo, archivos y responsabilidades movidas
+
+Se crea `src/hooks/useTimeline.js`, un hook específico de Humanidad Adolescente que importa directamente `stages`. Se modifican únicamente `src/App.jsx` y este documento; no se cambian componentes, datos, estilos, dependencias ni scripts de pruebas existentes.
+
+El hook contiene el estado de etapa actual, autoplay, visibilidad de cronología/página, movimiento reducido e indicación inicial de swipe; las referencias de cronología y comienzo táctil; los dos efectos de observación y reproducción; y los manejadores de navegación, teclado, gestos y scroll/foco al iniciar el recorrido.
+
+Se trasladaron literalmente las declaraciones, efectos y manejadores: se conservan los listeners y su limpieza, IntersectionObserver, visibilitychange, matchMedia, cálculo sobre todos los textos de la etapa a 180 palabras por minuto con mínimo de 30 segundos, límites de navegación y parada en la última etapa. También se conservan los filtros de teclado, el umbral horizontal mayor que 50 px y que 1,5 veces el desplazamiento vertical, los controles/multitouch y el foco con preventScroll.
+
+### Interfaz del hook
+
+`useTimeline()` no recibe argumentos y devuelve:
+
+- Estado consumido por la vista: `currentStage`, `autoPlay`, `reducedMotion`, `showScrollHint`.
+- Control existente de reproducción: `setAutoPlay`.
+- Referencia: `timelineRef`.
+- Manejadores: `navigateStage`, `handleTimelineKeyDown`, `handleTouchStart`, `handleTouchEnd`, `handleTouchCancel`, `scrollToTimeline`.
+
+No se exponen `setCurrentStage`, las banderas internas de visibilidad ni la referencia táctil. Se mantiene `setAutoPlay` para conservar sin cambios los callbacks existentes del botón y las pausas por interacción. El único cambio en JSX es conectar `onTouchCancel={handleTouchCancel}`; su cuerpo sigue siendo la misma asignación a null que antes estaba escrita en línea. No se agrega Context, memoización ni una abstracción genérica.
+
+### Responsabilidades conservadas y líneas
+
+`App.jsx` pasa de **747 a 678 líneas**, una reducción neta de **69 líneas (9,2 %)**, excluyendo líneas vacías finales. El hook tiene 106 líneas.
+
+Permanecen en `App.jsx` la composición y el JSX de todas las secciones, `quizResult`, compartir, modal, portapapeles, URLs y la lógica de foco del diálogo. El botón general de volver al inicio también permanece allí y consume `reducedMotion` del hook como antes consumía ese estado local. Las conexiones en JSX que pausan o alternan autoplay se conservan para minimizar el diff; todo su estado y efectos residen en el hook. No se extrae lógica de otras secciones ni se cambian props públicas de los componentes.
+
+### Verificaciones y resultados
+
+- `npm run build`: aprobado, Vite 5.4.21 y 1.572 módulos. JS 198,81 kB (gzip 62,34 kB); CSS 25,92 kB (gzip 5,49 kB). El CSS sigue siendo `index-CuQ8K7Vc.css`, idéntico al de la base.
+- `node scripts/smoke-phase1a.cjs`: 6 grupos aprobados, sin errores de ejecución ni advertencias/errores de consola capturados.
+- `node scripts/verify-phase1a.cjs --functional`: 4 grupos aprobados, sin errores de consola. Incluye seis etapas por teclado, foco visible y contenido oculto; tres recorridos completos del quiz y portapapeles/fallback; mínimo de lectura de 30 segundos, avance automático, pausa por interacción, salida real del viewport, visibilitychange simulado, ausencia de reanudación automática, parada/desactivación en última etapa y cambio de reduced-motion en vivo; swipes sintéticos izquierda/derecha, vertical/diagonal, multitouch, cancelación y comienzo sobre botones.
+- Comprobación adicional de cronología: 7 grupos aprobados. En movimiento normal y reducido se probaron los seis dots, anterior/siguiente por todo el recorrido, límites desactivados, descarte de la indicación de swipe y filtros de flechas en inputs/textarea/select/contenteditable/slider y con todos los modificadores. Se comprobó el retorno de foco al salir de una etapa y las pausas independientes por foco y pointerdown. El CTA desplaza realmente la página hasta la cronología y recibe foco con preventScroll; se registró la llamada smooth/auto correspondiente. Los controles editables fueron sondas temporales del DOM de prueba, sin cambios de aplicación.
+- Comparación visual contra el build estable anterior: **15 de 15 capturas AFTER idénticas píxel a píxel a BEFORE**, en 320, 390, 768, 1440 y 1920 px. Para cada ancho: página completa inicial, página completa con última etapa/futuros/resultado y modal. Se estabilizaron las capturas con movimiento reducido; su comportamiento dinámico se comprobó por separado.
+- Comparación de código: los bloques trasladados permanecen idénticos y el JSX completo coincide exactamente al revertir únicamente la conexión de cancelación táctil. Revisión del diff y `git diff --check` aprobados.
+
+No se detectaron regresiones ni fueron necesarias correcciones funcionales. Las pruebas se ejecutaron sobre el build local en Chrome para Windows con Playwright externo, sin agregar dependencias al proyecto. Las capturas, comparadores y comprobaciones complementarias quedan en `.audit/phase1b3a-*`, excluidos de Git; los reportes existentes también permanecen locales.
+
+Se mantienen las limitaciones físicas de Fase 1A: iPhone/Safari y Android/Chrome para arbitraje de swipe/scroll, inercia y multitouch; suspensión real de pestaña/app y bloqueo de pantalla; permisos de portapapeles y apertura de compositores de apps instaladas. La emulación y visibilitychange simulado no sustituyen esas pruebas. No se afirma ejecución del navegador sobre el Preview remoto.
+
+### Persistencia y límite
+
+Se entrega mediante commit y push a `humanidad-adolescente-v2`; el Preview READY y su SHA exacto se comprueban después del push y se informan en la entrega. `main` permanece intacta y no hay promoción a producción. La tarea termina en 1B.3A, sin avanzar a compartir/modal (1B.3B) ni a expansión editorial.
