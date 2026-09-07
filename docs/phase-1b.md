@@ -135,3 +135,72 @@ Se mantienen las limitaciones físicas de Fase 1A: iPhone/Safari y Android/Chrom
 ### Persistencia y límite
 
 Se entrega mediante commit y push a `humanidad-adolescente-v2`; el Preview READY y su SHA exacto se comprueban después del push y se informan en la entrega. `main` permanece intacta y no hay promoción a producción. La tarea termina en 1B.3A, sin avanzar a compartir/modal (1B.3B) ni a expansión editorial.
+
+## Fase 1B.3B
+
+Estado: completada. Base: `9858d80e9b16564173f130fd424bcf71016e2def`, rama `humanidad-adolescente-v2`.
+
+### Hook, archivos y responsabilidades
+
+Se crea `src/hooks/useSharing.js`. Se modifican únicamente `src/App.jsx` y este documento. El hook es específico de Humanidad Adolescente y recibe `quizResult` para construir el texto completo del resultado y el texto breve existente para X. Importa `projectShareText` desde el módulo de contenido existente.
+
+Se trasladan referencias y estado del diálogo, feedback de compartir, apertura/cierre, captura y restauración del foco del trigger, showModal/close, bloqueo/restauración del overflow del body, scrollTop inicial del textarea, focus trap, clipboard.writeText y fallback con foco/selección. También se trasladan la URL basada en origin + pathname, las cuatro URLs sociales y window.open con los mismos parámetros. Los cuerpos del efecto y las funciones existentes se conservan literalmente; los callbacks que estaban en línea pasan a funciones con el mismo cuerpo.
+
+### Interfaz pública
+
+`useSharing(quizResult)` devuelve:
+
+- Referencias: `shareDialogRef`, `shareTextRef`.
+- Datos para la vista: `shareStatus`, `resultShareText`, `resultTweetText`, `shareUrl`.
+- Acciones: `shareProject`, `copyResult`, `openShareModal`, `closeShareModal`.
+- Eventos del diálogo: `handleShareDialogKeyDown`, `handleShareDialogCancel`, `handleShareDialogClick`.
+
+La visibilidad interna, sus setters y `shareTriggerRef` no se exponen. Abrir conserva el mismo orden: registrar trigger, limpiar feedback y activar el modal. Escape sigue conectado a onCancel con preventDefault; el backdrop conserva la comparación entre target y currentTarget. No se agrega una abstracción genérica, Context, memoización ni dependencias.
+
+### Responsabilidades conservadas y líneas
+
+`App.jsx` pasa de **678 a 632 líneas**, una reducción neta de **46 líneas (6,8 %)**, excluyendo líneas vacías finales. El hook tiene 88 líneas.
+
+Permanecen en `App.jsx` el estado `quizResult` y su reinicio, la composición y todo el JSX visual, incluido el diálogo. La lógica de preguntas/puntuación sigue en `QuizComponent`; la cronología sigue en `useTimeline`. Los callbacks que seleccionan plataforma y el stopPropagation del contenedor interior permanecen como conexiones directas en JSX, evitando wrappers adicionales. No se cambian textos, URLs, ARIA, clases, componentes ni contenido editorial.
+
+El JSX completo coincide con la base al revertir sólo cinco sustituciones de conexión: apertura, cancel, backdrop, cierre y referencia al texto breve de X. No hay reestructuración visual.
+
+### Verificaciones y regresiones
+
+- `npm run build`: aprobado, Vite 5.4.21 y 1.573 módulos. JS 199,33 kB (gzip 62,48 kB); CSS 25,92 kB (gzip 5,49 kB). El CSS generado conserva el archivo `index-CuQ8K7Vc.css` de la base.
+- `node scripts/smoke-phase1a.cjs`: 6 grupos aprobados, sin errores de ejecución ni advertencias/errores de consola capturados.
+- `node scripts/verify-phase1a.cjs --functional`: 4 grupos aprobados, incluyendo cronología, teclado, autoplay, reduced-motion, gestos sintéticos, tres resultados del quiz y portapapeles/fallback. Sin errores de consola capturados.
+- Comprobación adicional de compartir a 320 px: 5 grupos aprobados. Para cada uno de los tres resultados se comparó el texto completo exacto del textarea y la copia real al portapapeles; se comprobó denegación simulada con foco y selección completa; se verificaron Tab/Shift+Tab en ambos extremos y recorrido dentro del diálogo, foco inicial, scrollTop inicial y reinicio de feedback al reabrir después de éxito y fallo.
+- Se probaron cierre por botón, Escape y clic real en backdrop, permanencia del modal al hacer clic dentro, restauración de foco al trigger con preventScroll y restauración de tres valores previos de overflow del body: vacío, scroll y auto. El bloqueo mientras está abierto es hidden.
+- URLs de X/WhatsApp del modal comprobadas exactamente para cada resultado; las cuatro plataformas del footer conservan el texto/URL del proyecto y sus parámetros originales. Se verificaron encodeURIComponent, exclusión de query/hash de shareUrl, `_blank` y `noopener,noreferrer,width=600,height=400`. Todas las llamadas a window.open se interceptaron: no se publicaron ni enviaron mensajes, ni se abrieron compositores reales.
+- Comparación visual: **15 de 15 capturas AFTER idénticas píxel a píxel a BEFORE**, en 320, 390, 768, 1440 y 1920 px. En cada ancho se comparó página completa inicial, página completa con última etapa/futuros/resultado y modal, estabilizadas con movimiento reducido.
+- Comparación de código, revisión del diff y `git diff --check`, incluido el diff agregado: aprobados.
+
+No se detectaron regresiones ni fueron necesarias correcciones funcionales. Las comprobaciones de navegador se ejecutaron sobre el build local en Chrome para Windows con Playwright externo. Los scripts existentes no se modificaron. Capturas, comparadores y pruebas complementarias permanecen locales en `.audit/phase1b3b-*`, excluidos de Git.
+
+Se mantienen las limitaciones físicas de Fase 1A: permisos/selección manual de portapapeles móvil y apertura de compositores en apps instaladas, gestos táctiles e inercia, y suspensión real de pestaña/app. No se afirma compatibilidad probada en Safari/Firefox ni ejecución de navegador sobre el Preview remoto.
+
+## Cierre Fase 1B
+
+La Fase 1B concluye con extracción incremental de responsabilidades, preservando la experiencia original:
+
+| Subfase | Responsabilidad separada | App.jsx antes | App.jsx después | Reducción neta |
+| --- | --- | ---: | ---: | ---: |
+| 1B.1 | Contenido y datos estáticos en seis módulos de `src/content/` | 1.332 | 1.004 | 328 |
+| 1B.2 | Cinco componentes existentes en `src/components/` | 1.004 | 747 | 257 |
+| 1B.3A | Cronología, autoplay, visibilidad y gestos en `useTimeline` | 747 | 678 | 69 |
+| 1B.3B | Compartir, portapapeles y comportamiento del modal en `useSharing` | 678 | 632 | 46 |
+
+Reducción acumulada de `App.jsx`, comparada contra `f4eab6e`: **1.332 → 632 líneas; 700 líneas menos (52,6 %)**. Se excluyen líneas vacías finales en todos los conteos. Esta cifra mide la responsabilidad retirada de App.jsx; el código se distribuyó en módulos, no se eliminó funcionalidad.
+
+Arquitectura resultante:
+
+- `src/content/`: etapas, futuros, quiz, configuración de avatares, reflexiones y datos compartidos.
+- `src/components/`: Avatar, AdultAvatar, TimelineStage, FutureCard y QuizComponent, con sus props y comportamiento originales.
+- `src/hooks/useTimeline.js`: lógica específica de cronología y reproducción.
+- `src/hooks/useSharing.js`: lógica específica de compartir y diálogo, consumiendo el resultado del quiz.
+- `src/App.jsx`: composición de la experiencia, JSX de secciones/modal, estilos existentes en línea y estado del resultado del quiz; conecta los módulos anteriores.
+
+Se conserva Vite + React, JavaScript y Tailwind con las dependencias existentes. No se agregaron backend, IA, capítulos ni cambios editoriales; las copias antiguas y la deuda fuera de alcance permanecen. La única adaptación del ejecutor de pruebas realizada en 1B fue el soporte de `--functional` como primer argumento, documentado en 1B.1.
+
+La entrega se persiste mediante commit y push a `humanidad-adolescente-v2`. El Preview READY, su correspondencia exacta con el SHA final y el árbol limpio se verifican después del push y se informan en la entrega. `main` permanece intacta, sin merge ni promoción a producción. La tarea termina aquí; no se inicia Fase 2.

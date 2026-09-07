@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Circle } from 'lucide-react';
 import { futures } from './content/futures.js';
 import { stages } from './content/stages.js';
 import { maturitySignals, personalActions, communityActions, institutionalActions } from './content/reflections.js';
-import { projectShareText } from './content/shared.js';
 import Avatar from './components/Avatar.jsx';
 import TimelineStage from './components/TimelineStage.jsx';
 import FutureCard from './components/FutureCard.jsx';
 import QuizComponent from './components/QuizComponent.jsx';
 import useTimeline from './hooks/useTimeline.js';
+import useSharing from './hooks/useSharing.js';
 
 export default function HumanityAdolescence() {
   const {
@@ -25,68 +25,22 @@ export default function HumanityAdolescence() {
     handleTouchCancel,
     scrollToTimeline,
   } = useTimeline();
-  const shareDialogRef = useRef(null);
-  const shareTriggerRef = useRef(null);
-  const shareTextRef = useRef(null);
   const [quizResult, setQuizResult] = useState(null);
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [shareStatus, setShareStatus] = useState('');
-
-  useEffect(() => {
-    if (!showShareModal) return;
-    const dialog = shareDialogRef.current;
-    const trigger = shareTriggerRef.current;
-    const previousOverflow = document.body.style.overflow;
-    dialog.showModal();
-    document.body.style.overflow = 'hidden';
-    dialog.querySelector('button')?.focus();
-    shareTextRef.current.scrollTop = 0;
-    return () => {
-      dialog.close();
-      document.body.style.overflow = previousOverflow;
-      trigger?.focus({ preventScroll: true });
-    };
-  }, [showShareModal]);
-
-  const resultShareText = quizResult
-    ? `Mi resultado en La Humanidad Adolescente: ${quizResult.stage}. ${quizResult.description} ${quizResult.message}`
-    : projectShareText;
-  const shareUrl = `${window.location.origin}${window.location.pathname}`;
-
-  const shareProject = (platform, text = projectShareText) => {
-    const urls = {
-      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-    };
-    if (urls[platform]) window.open(urls[platform], '_blank', 'noopener,noreferrer,width=600,height=400');
-  };
-
-  const copyResult = async () => {
-    try {
-      await navigator.clipboard.writeText(`${resultShareText}\n${shareUrl}`);
-      setShareStatus('Resultado copiado. Podés pegarlo en la red que prefieras.');
-    } catch {
-      shareTextRef.current?.focus();
-      shareTextRef.current?.select();
-      setShareStatus('No se pudo copiar automáticamente. El texto quedó seleccionado para que lo copies.');
-    }
-  };
-
-  const handleShareDialogKeyDown = (e) => {
-    if (e.key !== 'Tab') return;
-    const controls = e.currentTarget.querySelectorAll('button:not(:disabled), textarea');
-    const first = controls[0];
-    const last = controls[controls.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  };
+  const {
+    shareDialogRef,
+    shareTextRef,
+    shareStatus,
+    resultShareText,
+    resultTweetText,
+    shareUrl,
+    shareProject,
+    copyResult,
+    openShareModal,
+    closeShareModal,
+    handleShareDialogKeyDown,
+    handleShareDialogCancel,
+    handleShareDialogClick,
+  } = useSharing(quizResult);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-purple-900/20 to-gray-900 text-white relative overflow-x-clip">
@@ -464,7 +418,7 @@ export default function HumanityAdolescence() {
                 Volver a hacer el quiz
               </button>
               <button
-                onClick={(e) => { shareTriggerRef.current = e.currentTarget; setShareStatus(''); setShowShareModal(true); }}
+                onClick={openShareModal}
                 className="px-8 py-3 bg-white/10 text-white rounded-full font-bold hover:bg-white/20 transition-all"
               >
                 Compartir resultado
@@ -476,14 +430,14 @@ export default function HumanityAdolescence() {
       </section>
 
       {/* Share Modal */}
-      <dialog ref={shareDialogRef} aria-labelledby="share-title" aria-describedby="share-description" onKeyDown={handleShareDialogKeyDown} onCancel={(e) => { e.preventDefault(); setShowShareModal(false); }} className="share-dialog bg-gray-800 text-white rounded-2xl p-0" onClick={(e) => { if (e.target === e.currentTarget) setShowShareModal(false); }}>
+      <dialog ref={shareDialogRef} aria-labelledby="share-title" aria-describedby="share-description" onKeyDown={handleShareDialogKeyDown} onCancel={handleShareDialogCancel} className="share-dialog bg-gray-800 text-white rounded-2xl p-0" onClick={handleShareDialogClick}>
           <div className="p-5 sm:p-8" onClick={(e) => e.stopPropagation()}>
             <h3 id="share-title" className="text-2xl font-bold mb-4 text-center">Compartir resultado</h3>
             <p id="share-description" className="text-gray-300 mb-4">Compartí tu resultado en X o WhatsApp. Para otras redes, copiá el texto.</p>
             <textarea ref={shareTextRef} readOnly aria-label="Texto del resultado para compartir" value={`${resultShareText}\n${shareUrl}`} className="w-full min-h-40 bg-gray-900 text-gray-200 border border-gray-600 rounded-lg p-3 mb-4" />
             <div className="grid grid-cols-2 gap-4">
               <button onClick={copyResult} className="p-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-semibold transition-colors col-span-2">Copiar resultado</button>
-              <button onClick={() => shareProject('x', `Mi resultado en La Humanidad Adolescente: ${quizResult?.stage}.`)} className="p-4 bg-black hover:bg-gray-900 rounded-xl font-semibold transition-colors">
+              <button onClick={() => shareProject('x', resultTweetText)} className="p-4 bg-black hover:bg-gray-900 rounded-xl font-semibold transition-colors">
                 𝕏 (Twitter)
               </button>
               <button onClick={() => shareProject('whatsapp', resultShareText)} className="p-4 bg-green-500 hover:bg-green-600 text-gray-900 rounded-xl font-semibold transition-colors">
@@ -491,7 +445,7 @@ export default function HumanityAdolescence() {
               </button>
             </div>
             <p role="status" className="text-sm text-gray-200 mt-4">{shareStatus}</p>
-            <button onClick={() => setShowShareModal(false)} className="mt-6 w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-xl transition-colors">
+            <button onClick={closeShareModal} className="mt-6 w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-xl transition-colors">
               Cerrar
             </button>
           </div>
