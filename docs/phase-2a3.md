@@ -87,6 +87,30 @@ El segundo intento se renderizó con 32 muestras para separar ruido de Cycles de
 
 **Fase 2A.3 permanece ABIERTA y NO APROBADA.** Este commit es un checkpoint técnico/artístico reproducible, no el cierre de la dirección de arte ni autorización para animar.
 
+### Checkpoint Material Target v2
+
+Después del checkpoint `571e5f03535cfbd83fa6170cea859c13d9b88a81` se realizó un ensayo acotado basado en la nueva referencia local `references/lookdev/a_cinematic_high_detail_triptych_concept_art_cgi.png`. La referencia se usó para estudiar propiedades materiales y continuidad entre Agua y Vida; no se incorporó como textura, fondo ni collage.
+
+El ensayo está preservado en `scripts/production/material-target-v2.py`. Reutiliza el mundo, las cámaras generales y la iluminación de Fase 2A.3. Genera únicamente stills desktop 03, 03.5 y 04; no contiene animación ni modifica los otros hero frames. Los renders, `.blend` y sidecars permanecen fuera del repositorio.
+
+Se hicieron dos iteraciones, con 16 muestras porque el ruido no impedía evaluar la forma:
+
+1. **Iteración 1.** Se reemplazó el modelo “membrana + objetos interiores” por una superficie de densidad conectada. La cámara ya podía avanzar por la misma escena entre los tres estados, pero el tejido se veía opaco, pesado y semejante a coral o hueso. Los filamentos superiores parecían tallos añadidos.
+2. **Iteración 2.** Se redujo el espesor, se vinculó transmisión y roughness a una densidad local, se agregaron zonas claras y turbias y se probó una caústica proyectada. La continuidad espacial mejoró, pero la topología siguió dominando la lectura: paredes duras, cavidades amplias, bordes dentados y patrones de malla visibles. El resultado parece cerámica perforada antes que materia blanda organizada. En 03.5, los filamentos se distinguen de la caústica y no alcanzan la ambigüedad “¿luz u organización?”.
+
+| Evaluación Material Target v2 | Juicio | Evidencia |
+| --- | --- | --- |
+| Frame 03 — Agua / Descenso | **NO** | Superficie y profundidad legibles, pero el reflejo permanece extendido y la caústica no conduce con precisión hacia la organización. |
+| Frame 03.5 — Agua → Vida | **NO** | Comparte escena y material, pero se percibe un acercamiento a una forma ya creada; luz y filamento siguen siendo elementos distinguibles. |
+| Frame 04 — Vida | **NO** | No hay cápsula con piedras, pero la superficie conectada se lee como coral, hueso o cerámica perforada. |
+| Continuidad 03→03.5→04 | **CERCA** | El avance de cámara y la continuidad espacial funcionan; la materia todavía no transforma el fenómeno óptico en organización viva. |
+
+El bloqueo principal está en la **construcción de la materia de Vida**. Más muestras sólo reducirían ruido de integración. Refinar el shader actual podría alterar color, brillo o translucidez, pero conservaría las paredes, cavidades y silueta que producen la lectura rígida. El problema es topológico y debe resolverse antes de volver a iluminar el hero frame.
+
+El próximo ensayo artístico cambia de método: primero se construirá un **Material Lab aislado**, sin composición hero, para evaluar espesores blandos, densidad continua, pliegues, vesículas integradas, translucidez localizada y respuesta a la luz. Sólo un material que supere ese gate se llevará otra vez a 03/03.5/04.
+
+**Fase 2A.3 continúa ABIERTA y NO APROBADA.** Este apartado registra el diagnóstico del ensayo; no sustituye los WebP de la galería ni declara ningún frame como hero aprobado.
+
 ## Validación y persistencia
 
 Checkpoint verificado el 08/09/2026:
@@ -100,3 +124,10 @@ Checkpoint verificado el 08/09/2026:
 - `git diff --check`: aprobado antes del commit.
 
 Que el build y la galería funcionen sólo demuestra estabilidad técnica; no altera los juicios **NO / NO / CERCA** ni cierra Fase 2A.3. El SHA y Preview READY se confirman después del push.
+
+Validación del checkpoint Material Target v2:
+
+- `npm run build`: aprobado nuevamente con Vite 5.4.21 y 1.586 módulos transformados; el ensayo no cambia los chunks de la aplicación.
+- `scripts/production/material-target-v2.py`: sintaxis verificada. Su dependencia NumPy pertenece al runtime de Blender utilizado por el ensayo y no agrega una dependencia al frontend.
+- Verificación mínima local: experiencia original aislada; 2A.2 con reduced-motion y avance manual; galería lookdev operativa en 320, 390, 768, 1440 y 1920 px; consola, excepciones de página y respuestas HTTP sin errores.
+- Los nuevos renders, `.blend`, sidecars y capturas de verificación permanecen locales y excluidos. Este checkpoint versiona únicamente el script reproducible y el diagnóstico.
