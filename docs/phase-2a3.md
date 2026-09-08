@@ -138,6 +138,39 @@ Más samples no resolverían la lectura cerosa, mineral o plástica observada. E
 
 **Fase 2A.3 permanece ABIERTA y NO APROBADA.** El Material Lab es un checkpoint diagnóstico y reproducible; no autoriza integrar A en Frame 04 ni avanzar a Fase 2B.
 
+### Checkpoint Material Lab v2 — organización interna
+
+`scripts/production/material-lab-v2.py` retoma exclusivamente la masa continua del método A. La geometría exterior se suaviza para reducir ruido, bultos repetidos y relieve de roca. La complejidad se traslada a un medio volumétrico continuo dentro de esa masa; no se agregan esferas, organelas, piedras, curvas ni objetos interiores.
+
+Se produjeron tres stills del mismo sistema, a 1440×960, Cycles CPU y 16 muestras con denoise:
+
+1. **V1 — superficie fina + volumen sencillo: NO.** Conserva continuidad y suavidad, pero la dispersión uniforme produce una masa lechosa, próxima a cera o una pieza moldeada. La profundidad interna casi no se percibe.
+2. **V2 — gradientes internos: NO.** Zonas claras y turbias aparecen en profundidad, aunque todavía se leen como nubes dentro de resina. El borde y los reflejos separan perceptualmente superficie e interior.
+3. **V3 — filamentos integrados: NO.** Los filamentos son crestas del mismo campo escalar y aportan dirección. Visualmente parecen velos o fibras borrosas encapsuladas; la masa conserva apariencia de gel o plástico fabricado.
+
+V4 no se produjo. El gate indicaba detenerse si V3 permanecía en **NO**, y no surgió un ajuste concreto capaz de llevar el sistema a **SÍ** dentro de una cuarta iteración.
+
+| Criterio | V1 | V2 | V3 |
+| --- | --- | --- | --- |
+| Masa continua | Sí | Sí | Sí |
+| Profundidad interna | Muy baja | Parcial | Parcial, con dirección |
+| Organización surgida de la materia | No perceptible | Nubosidad interna | Se insinúa, pero no convence |
+| Lectura húmeda y blanda | Cerosa | Húmeda, todavía rígida | Gel moldeado |
+| Evita cera, plástico, piedra y coral | No | No | No |
+| Superficie e interior pertenecen al mismo sistema | Técnicamente sí, perceptualmente no | Parcial | Parcial |
+| Admite futura deformación y división | Potencialmente | Potencialmente | Potencialmente, deformando también el campo |
+| **Juicio** | **NO** | **NO** | **NO** |
+
+La capacidad de división es una evaluación estructural del método; no se produjo ni simuló animación.
+
+El bloqueo principal pasa a ser la **integración perceptual de superficie y volumen**. El sistema ya contiene gradientes y flujo continuo, pero el límite óptico sigue pareciendo un recipiente y la organización queda encapsulada. Los filamentos necesitan relacionarse con regiones densas y claras mediante variaciones de nitidez, escala y continuidad que este ensayo no resolvió.
+
+Decisión de pipeline: A se conserva como posible base geométrica porque ofrece una masa continua y deformable. El material volumétrico procedural actual no queda aprobado ni se escala mediante más samples o refinamientos del mismo shader. La próxima prueba deberá mantener separadas las responsabilidades de **geometría = masa continua** y **material/volumen = organización interna**, y superar este gate aislado antes de regresar a Frame 04.
+
+Los PNG y `.blend` de V1, V2 y V3 permanecen fuera del repositorio en `C:/Users/AMIRANDA/.codex/production/humanidad-adolescente/phase2a3/material-lab-v2/`. No se incorporan en la galería, no reemplazan hero frames y no reabren Agua, 03.5 ni continuidad.
+
+**Fase 2A.3 permanece ABIERTA y NO APROBADA.** Este checkpoint conserva el diagnóstico y la decisión de pipeline; no inicia Fase 2B.
+
 ## Validación y persistencia
 
 Checkpoint verificado el 08/09/2026:
@@ -168,3 +201,11 @@ Validación del checkpoint Material Lab:
 - Los PNG, `.blend` y capturas `.audit` permanecen locales y excluidos. El checkpoint versiona solamente el script del laboratorio y el diagnóstico.
 
 La estabilidad técnica no modifica el gate artístico: **A = NO, B = NO, C = NO**. Fase 2A.3 continúa abierta y no aprobada.
+
+Validación del checkpoint Material Lab v2:
+
+- `scripts/production/material-lab-v2.py`: ejecutado de extremo a extremo en Blender 4.5.13 LTS para V1, V2 y V3. Los tres renders concluyeron con 16 muestras. V4 no fue generado.
+- `npm run build`: aprobado con Vite 5.4.21 y 1.586 módulos transformados.
+- Verificación mínima local: obra original intacta; Master Shot 2A.2 con reduced-motion y avance manual; galería lookdev operativa; consola, excepciones de página y respuestas HTTP sin errores.
+- Los PNG, `.blend` y logs `.audit` permanecen locales y excluidos. El checkpoint versiona únicamente el script reproducible y el diagnóstico.
+- La estabilidad técnica no cambia los juicios **V1 = NO, V2 = NO, V3 = NO** ni cierra Fase 2A.3.
