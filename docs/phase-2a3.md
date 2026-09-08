@@ -111,6 +111,33 @@ El próximo ensayo artístico cambia de método: primero se construirá un **Mat
 
 **Fase 2A.3 continúa ABIERTA y NO APROBADA.** Este apartado registra el diagnóstico del ensayo; no sustituye los WebP de la galería ni declara ningún frame como hero aprobado.
 
+### Checkpoint Material Lab
+
+Después del ensayo Material Target v2 se aisló el problema de Vida en un laboratorio neutro, sin agua, continuidad narrativa, composición hero ni animación. `scripts/production/material-lab.py` compara tres construcciones bajo la misma cámara, escala aproximada, iluminación base y lógica material:
+
+- **A — Density Field → Surface.** Una suma de densidades continuas se convierte en superficie al final. Evita perforaciones y separaciones entre contenedor y contenido.
+- **B — Metaballs + Remesh.** Masas implícitas fusionadas se convierten en una única malla, con remesh suave y desplazamiento local.
+- **C — Geometry Nodes Density.** Un mismo campo gobierna pliegues, espesor, desplazamiento y atributo óptico sobre una superficie continua.
+
+Se produjeron exactamente dos stills por método, A1/A2, B1/B2 y C1/C2, a 1440×960, Cycles CPU, 16 muestras con denoise. La primera ronda reveló una iluminación excesiva que aplanaba las tres materias. La segunda corrigió esa condición común y acentuó las diferencias estructurales sin aumentar muestras. Los PNG y `.blend` permanecen fuera del repositorio en `C:/Users/AMIRANDA/.codex/production/humanidad-adolescente/phase2a3/material-lab/`; no se integran en la galería ni reemplazan hero frames.
+
+| Método | Juicio | Diagnóstico |
+| --- | --- | --- |
+| A — Density Field → Surface | **NO** | Es la base estructural más prometedora: elimina mejor la carcasa perforada y permite una masa continua, espesores variables y futura constricción. Visualmente todavía se lee como pasta o cera moldeada; la organización interna no resulta visible. |
+| B — Metaballs + Remesh | **NO** | La fusión implícita produce continuidad real, pero el volumen y la respuesta superficial se perciben como mineral, hueso o cerámica húmeda. |
+| C — Geometry Nodes Density | **NO** | Densidad, pliegue y espesor comparten el mismo sistema, pero la forma conserva rigidez y apariencia plástica o fabricada. |
+
+No existe técnica visualmente ganadora y ninguna alcanza el gate **CERCA**. A se conserva únicamente como **base técnica para el próximo estudio**; no se selecciona como material aprobado ni como dirección artística definitiva.
+
+El resultado desplaza el diagnóstico: el bloqueo ya no es solamente la topología exterior. Una masa continua puede evitar cápsulas, perforaciones y objetos internos sin producir por sí sola materia viva organizada. La próxima prueba separará responsabilidades:
+
+- **Geometría:** masa continua, blanda y apta para constricción.
+- **Material/volumen:** organización interna perceptible mediante gradientes de densidad, regiones densas y translúcidas relacionadas, pliegues y filamentos conectados.
+
+Más samples no resolverían la lectura cerosa, mineral o plástica observada. Esas lecturas provienen de la relación entre forma, espesor y organización óptica, no de ruido de render.
+
+**Fase 2A.3 permanece ABIERTA y NO APROBADA.** El Material Lab es un checkpoint diagnóstico y reproducible; no autoriza integrar A en Frame 04 ni avanzar a Fase 2B.
+
 ## Validación y persistencia
 
 Checkpoint verificado el 08/09/2026:
@@ -131,3 +158,13 @@ Validación del checkpoint Material Target v2:
 - `scripts/production/material-target-v2.py`: sintaxis verificada. Su dependencia NumPy pertenece al runtime de Blender utilizado por el ensayo y no agrega una dependencia al frontend.
 - Verificación mínima local: experiencia original aislada; 2A.2 con reduced-motion y avance manual; galería lookdev operativa en 320, 390, 768, 1440 y 1920 px; consola, excepciones de página y respuestas HTTP sin errores.
 - Los nuevos renders, `.blend`, sidecars y capturas de verificación permanecen locales y excluidos. Este checkpoint versiona únicamente el script reproducible y el diagnóstico.
+
+Validación del checkpoint Material Lab:
+
+- `scripts/production/material-lab.py`: ejecutado de extremo a extremo en Blender 4.5.13 LTS para A1/A2, B1/B2 y C1/C2. Los seis renders concluyeron con 16 muestras; no se aumentaron samples ni se produjo material adicional.
+- `npm run build`: aprobado con Vite 5.4.21 y 1.586 módulos transformados.
+- Verificación local de aislamiento: experiencia original intacta y sin solicitudes de recursos 2A; Master Shot 2A.2 conserva reduced-motion y avance manual; galería lookdev operativa en 320, 390, 768, 1440 y 1920 px.
+- Navegación, recursos HTTP, excepciones de página y consola: sin errores en la comprobación.
+- Los PNG, `.blend` y capturas `.audit` permanecen locales y excluidos. El checkpoint versiona solamente el script del laboratorio y el diagnóstico.
+
+La estabilidad técnica no modifica el gate artístico: **A = NO, B = NO, C = NO**. Fase 2A.3 continúa abierta y no aprobada.
