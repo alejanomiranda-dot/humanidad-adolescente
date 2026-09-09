@@ -171,6 +171,28 @@ Los PNG y `.blend` de V1, V2 y V3 permanecen fuera del repositorio en `C:/Users/
 
 **Fase 2A.3 permanece ABIERTA y NO APROBADA.** Este checkpoint conserva el diagnóstico y la decisión de pipeline; no inicia Fase 2B.
 
+### Checkpoint Living Matter — pipeline híbrido image-driven
+
+Después de cerrar la vía procedural pura como estrategia principal se construyó un micro-shot aislado de siete segundos en `experiments/living-matter/`. El estudio usa dos imágenes de estado, L0 desorganizada y L2 organizada, como materia visual; WebGL 2 aporta correspondencia 2.5D, deformación, continuidad de cámara, respiración, desplazamiento por profundidad y partículas. No intenta reconstruir profundidad real ni generar una materia nueva íntegramente mediante shader.
+
+`scripts/production/capture-living-matter.cjs` reproduce el plano de forma determinista a 1440×600 y 30 fps. Las fuentes L0, L2 y la referencia de luz/material se conservan en `references/living-matter/`. El MP4 y sus secuencias de frames permanecen fuera del repositorio en `C:/Users/AMIRANDA/.codex/production/humanidad-adolescente/phase2a3/`; no se integran en la aplicación, la galería de lookdev ni el Preview.
+
+Se probaron dos variantes del mismo micro-shot. La Variante 2 fue seleccionada como mejor candidata porque conserva el foreground de L0 como capa estable y organiza el relevo de materia de forma localizada. Sobre esa variante se realizó una única corrección adicional en el tramo medio:
+
+- correspondencia mediante diez líneas de control sobre pliegues y filamentos principales entre L0 y L2;
+- menor superposición de filamentos mediante un relevo temporal más corto y una máscara espacial suave;
+- continuidad del volumen central sin modificar cámara, iluminación, profundidad general, foreground, duración ni timing global.
+
+El inicio y el final de la V2 corregida coinciden píxel a píxel con la V2 previa a la compresión del video. La exportación resultante conserva 1440×600, 30 fps, 210 frames y 7 segundos. Fue decodificada de extremo a extremo y reproducida en Chrome sin errores.
+
+| Evaluación Living Matter | Juicio | Diagnóstico |
+| --- | --- | --- |
+| V2 corregida | **CERCA** | Los pliegues y líneas principales se corresponden mejor y disminuye la doble exposición del tramo medio. Algunos filamentos finos todavía aparecen o desaparecen mediante mezcla. |
+| Continuidad morfológica | **CERCA** | El plano se percibe más como reorganización de una misma masa, pero el detalle fino aún revela parcialmente el relevo entre imágenes. |
+| Pipeline híbrido image-driven | **CAMINO PRINCIPAL** | La combinación de imágenes dirigidas artísticamente con cámara, profundidad y deformación en Blender/WebGL merece avanzar como base para la futura construcción de Frame 04. |
+
+La V2 corregida es la mejor candidata actual y valida el pipeline híbrido como camino principal. **No es arte final aprobado. Fase 2A.3 permanece ABIERTA y NO APROBADA globalmente.** Este checkpoint no autoriza animación adicional, integración en la experiencia, apertura de Fase 2B ni regreso automático al material procedural puro.
+
 ## Validación y persistencia
 
 Checkpoint verificado el 08/09/2026:
@@ -209,3 +231,12 @@ Validación del checkpoint Material Lab v2:
 - Verificación mínima local: obra original intacta; Master Shot 2A.2 con reduced-motion y avance manual; galería lookdev operativa; consola, excepciones de página y respuestas HTTP sin errores.
 - Los PNG, `.blend` y logs `.audit` permanecen locales y excluidos. El checkpoint versiona únicamente el script reproducible y el diagnóstico.
 - La estabilidad técnica no cambia los juicios **V1 = NO, V2 = NO, V3 = NO** ni cierra Fase 2A.3.
+
+Validación del checkpoint Living Matter híbrido:
+
+- `npm run build`: aprobado con Vite 5.4.21 y 1.586 módulos transformados.
+- `node scripts/smoke-phase1a.cjs`: 6 comprobaciones aprobadas; experiencia original, cronología, futuros, quiz, modal, 320 px, reduced-motion y consola sin regresiones.
+- `node scripts/verify-master-shot.cjs --functional`: aprobado; 2A.2 conserva reproducción completa, sincronización, pausas por visibilidad, pérdida de contexto, fallback semántico y avance manual con reduced-motion. No se registraron errores de consola.
+- La V2 corregida ya exportada fue decodificada de extremo a extremo y reproducida en Chrome; inicio y final se verificaron idénticos a la V2 anterior antes de compresión. No se generaron renders adicionales para este checkpoint.
+- Las salidas MP4/JPEG/PNG y `.audit` permanecen locales y excluidas. Se versionan el estudio aislado, su capturador, las tres fuentes necesarias y este diagnóstico.
+- La estabilidad técnica confirma la reproducibilidad del estudio; el gate artístico permanece en **CERCA** y Fase 2A.3 continúa abierta y no aprobada.
