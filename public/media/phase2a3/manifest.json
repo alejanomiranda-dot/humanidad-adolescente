@@ -1,0 +1,184 @@
+{
+  "source": "Own Blender geometry: scripts/production/lookdev.py and lookdev-art-bible.json. Supplied references are not included in these images.",
+  "productionHashes": {
+    "lookdev.py": "cd997cb18ecb48bde0b8b3922eb31edd8a68b073a2447b49d20187fb91415895",
+    "lookdev-water-life.py": "ee12135489272a5431e9df3129431e2e79519725da061b7adc0c49153b83a2e4",
+    "lookdev-art-bible.json": "42e780a35cda66791289002e546942ee7c2fcce3597fc0d3f91f403c93e5105b"
+  },
+  "files": [
+    {
+      "name": "frame-01-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 19972,
+      "sha256": "f28cb618bf8cf27dcaa0a08ca82429654a484a172685f75b0730e7c278d0ec77",
+      "renderSeconds": 27.4,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-02-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 32578,
+      "sha256": "794fb8817f244b0e60d4a4c3076350a5251d5fbc08bed3d70b08e020796a7357",
+      "renderSeconds": 38.34,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-03-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 48664,
+      "sha256": "6a70a5ce3e7fd9ad878b22a93d267f0671601c2c174f9e32f05275433b845239",
+      "renderSeconds": 60.08,
+      "samples": 32,
+      "configVersion": "water-life-attempt-2"
+    },
+    {
+      "name": "frame-04-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 52512,
+      "sha256": "2b869938fada494388f7d3b76b9105ac9f3c47dae0edb7bb9e05839f4d2d8b15",
+      "renderSeconds": 76.77,
+      "samples": 32,
+      "configVersion": "water-life-attempt-2"
+    },
+    {
+      "name": "frame-05-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 53358,
+      "sha256": "dbb1b166a281c79c0ba1da12f9f55493d5c153f2130ffe477483f0cd277b7ab1",
+      "renderSeconds": 76.96,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-06-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 43580,
+      "sha256": "440cb1011a767c198b6a0852611839ee4d8fbea11a206d58f147032cc8973e4f",
+      "renderSeconds": 95.19,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-07-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 57200,
+      "sha256": "48cb52b23d8fbae64d312c5408c3c546d42b55b64b50a2b92857ce365fce93cd",
+      "renderSeconds": 104.29,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-08-desktop.webp",
+      "width": 1440,
+      "height": 810,
+      "bytes": 28514,
+      "sha256": "98462fc30094570eca460f748861eead933ff4cc54c7f35fcd575839db79e791",
+      "renderSeconds": 28.13,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-03-mobile.webp",
+      "width": 810,
+      "height": 1440,
+      "bytes": 29534,
+      "sha256": "0e90886a25c36169f720c5b7687238748d3fb264ab0270584ecd440c8e887e01",
+      "renderSeconds": 39.17,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-04-mobile.webp",
+      "width": 810,
+      "height": 1440,
+      "bytes": 36922,
+      "sha256": "72ace78aa99ec2e6e4bf2ea5741549490fc61c9a34145b99ffd2c7b0294fbc49",
+      "renderSeconds": 56.73,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-05-mobile.webp",
+      "width": 810,
+      "height": 1440,
+      "bytes": 40658,
+      "sha256": "d0ce3619cbd254fadf7360e28f168bf5bd47e529e97781a88dc898ad727703e8",
+      "renderSeconds": 57.2,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-07-mobile.webp",
+      "width": 810,
+      "height": 1440,
+      "bytes": 38400,
+      "sha256": "98d40e37b1ab22192aa25fd78c27f2768bbbd5c1d899ce079c7a8a584482d20b",
+      "renderSeconds": 82.95,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    },
+    {
+      "name": "frame-08-mobile.webp",
+      "width": 810,
+      "height": 1440,
+      "bytes": 25902,
+      "sha256": "34fff27737950ef73d01e5df6b8361b0423a4668a1b19ec8cbcd0b193d02d617",
+      "renderSeconds": 27.45,
+      "samples": 16,
+      "configVersion": "phase2a3-review-01"
+    }
+  ],
+  "comparisons": [
+    {
+      "name": "before-water.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 17326,
+      "sha256": "f13062586bef15a493a32ca8a6b2b42b5196df6044cf042dc18cbb1d06508166"
+    },
+    {
+      "name": "before-membrane.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 19064,
+      "sha256": "011caa35452fd8606954fd77a1a0b5a6b79938498b179850272237fe7c57e91c"
+    },
+    {
+      "name": "before-neck.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 21614,
+      "sha256": "2bea88f58ae9ffb439cc6502dd897f1ee2ec7a7a9a680d23862708887ddd0e26"
+    },
+    {
+      "name": "before-division.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 20684,
+      "sha256": "ed6c34df4360ed10e4bee1e50f0c4fa1dcb6882327c2781285ee9455f25f08b1"
+    },
+    {
+      "name": "before-information.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 12064,
+      "sha256": "ba18320056788e88f068aa1459f77dfebbfd9d4582f9f60f3cd4811f09f38115"
+    },
+    {
+      "name": "before-saturation.webp",
+      "width": 1440,
+      "height": 900,
+      "bytes": 27764,
+      "sha256": "814aa9516b9fae8e7881176bcd69cc53ac449c34cf1160ab3b0743041a56a9d9"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "phase2a3-review-01",
+  "seed": 2303,
+  "blender": "4.5.13 LTS",
+  "engine": "CYCLES",
+  "samples": 32,
+  "desktop": [1440, 810],
+  "mobile": [810, 1440],
+  "viewTransform": "AgX",
+  "exposure": -0.65,
+  "lensMm": 48,
+  "fStop": 4.5,
+  "worldColor": [0.002, 0.008, 0.014],
+  "coolLight": [0.36, 0.66, 0.78],
+  "warmLight": [1.0, 0.64, 0.30],
+  "filmColor": [0.16, 0.25, 0.25],
+  "filmRoughness": 0.32,
+  "filmTransmission": 0.45,
+  "filmIor": 1.30,
+  "principle": "Shared surface coordinates, grazing light and branching folds become caustic, membrane and ordered traces. No transition crossfade."
+}

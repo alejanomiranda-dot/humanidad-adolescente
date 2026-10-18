@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.vercel/
+.audit/
+/references/lookdev/
+__pycache__/
+*.pyc
+.env*
+!.env.example
