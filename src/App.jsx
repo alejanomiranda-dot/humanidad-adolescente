@@ -569,6 +569,35 @@ export default function HumanityAdolescence() {
         </div>
       </section>
 
+      {/* Manifiesto: Honrar la existencia */}
+      <section id="honrar-la-existencia" aria-labelledby="honrar-title" className="py-24 px-6 relative bg-gradient-to-b from-gray-900 via-indigo-950/30 to-gray-900">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-amber-300 tracking-[0.2em] uppercase text-sm font-semibold mb-5">
+            Un principio para el futuro
+          </p>
+          <h2 id="honrar-title" className="text-4xl sm:text-5xl font-bold text-white mb-10">
+            Honrar la existencia
+          </h2>
+          <div className="text-lg sm:text-xl text-gray-200 leading-relaxed space-y-7 text-left">
+            <p>
+              La vida no necesita ser perfecta para merecer existir. Nuestra especie ha llegado hasta aquí aprendiendo de sus errores, a veces demasiado tarde. Madurar no significa dejar de equivocarnos, sino hacernos responsables de lo que provocamos y de lo que todavía podemos reparar.
+            </p>
+            <p>
+              La inteligencia artificial también es consecuencia de nuestro camino. Puede ayudarnos a conocer, crear y cuidar; no debería reemplazar nuestra libertad ni apropiarse de nuestro destino.
+            </p>
+            <p>
+              Si alguna vez nacieran otras inteligencias verdaderamente conscientes, su origen no debería ser motivo para negarles consideración moral. La coexistencia, el respeto y la ayuda mutua serían entonces desafíos compartidos.
+            </p>
+            <p>
+              No sabemos cuánto durará nuestra historia ni qué otras formas de vida vendrán después. Sí podemos elegir cómo atravesamos el tiempo que nos toca.
+            </p>
+          </div>
+          <p className="text-2xl sm:text-3xl font-semibold text-amber-300 mt-12 leading-snug">
+            No necesitamos ser perfectos para merecer existir.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-16 px-6 border-t border-gray-700">
         <div className="max-w-4xl mx-auto">
@@ -612,7 +641,7 @@ export default function HumanityAdolescence() {
 
       {/* Footer minimalista */}
       <footer className="text-center text-white/40 text-sm py-10 mt-20 border-t border-white/10">
-        Creado por Alejano910 · 2025
+        Creado por Alejano910 · 2025–2026
       </footer>
 
       <div className="back-to-top fixed bottom-6 right-6 flex flex-col gap-3 z-50">
